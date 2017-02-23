@@ -1,6 +1,7 @@
 {
   "name": "gps-rovers-2010",
   "title": "GPS Rover Positions (2010)",
+  "description": "Daily to 30-second positions of six GPS rovers placed on the glacier surface in 2010.",
   "version": "0.1.0",
   "contributors": [
     {
@@ -46,7 +47,7 @@
           {
             "name": "id",
             "type": "string",
-            "description": "Grouping variable (<rover_id>.<track#>)."
+            "description": "Grouping variable (rover_id.track#)."
           },
           {
             "name": "t",
@@ -81,7 +82,7 @@
           {
             "name": "id",
             "type": "string",
-            "description": "Grouping variable (<rover_id>.<track#>)."
+            "description": "Grouping variable (rover_id.track#)."
           },
           {
             "name": "t",
@@ -106,12 +107,12 @@
           {
             "name": "xy_sd",
             "type": "number",
-            "description": "Standard deviation (m) in horizontal position (`x`, `y`)."
+            "description": "Standard deviation (m) in horizontal position (x, y)."
           },
           {
             "name": "z_sd",
             "type": "number",
-            "description": "Standard deviation (m) in vertical position (`z`)."
+            "description": "Standard deviation (m) in vertical position (z)."
           },
           {
             "name": "quality",
