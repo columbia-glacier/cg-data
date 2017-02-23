@@ -52,22 +52,22 @@
           {
             "name": "t",
             "type": "date",
-            "description": "ISO 8601 date (YYYY-MM-DD). Time is unknown."
+            "description": "ISO 8601 date (YYYY-MM-DD). Time and time zone are unknown."
           },
           {
             "name": "x",
             "type": "number",
-            "description": "Easting (m) in UTM Zone 6N (unknown datum)."
+            "description": "Easting (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "y",
             "type": "number",
-            "description": "Northing (m) in UTM Zone 6N (unknown datum)."
+            "description": "Northing (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "z",
             "type": "number",
-            "description": "Height (m) (unknown datum)."
+            "description": "Height (m) above the WGS84 ellipsoid."
           }
         ]
       }
@@ -117,7 +117,7 @@
           {
             "name": "quality",
             "type": "integer",
-            "description": "GrafNav position quality metric (smaller numer = higher quality)."
+            "description": "GrafNav position quality metric (smaller number = higher quality)."
           }
         ]
       }
