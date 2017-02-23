@@ -1,0 +1,221 @@
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <shad.oneel@gmail.com>
+Received: from ipmx1.colorado.edu (ipmx1.colorado.edu [128.138.128.231])
+	by riddler.int.colorado.edu (MOS 3.10.9-GA)
+	with ESMTP id ACW51618;
+	Mon, 1 Nov 2010 16:47:03 -0600 (MDT)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: ArMAAJ7ezkzRVdazjWdsb2JhbAChWggVAQEBAQkJCgkPBR+jUYlagheFfC6IVwEBAwWDBoI6BIRXhX2FdA
+X-IronPort-AV: E=Sophos;i="4.58,276,1286172000"; 
+   d="scan'208";a="285941150"
+Received: from mail-iw0-f179.google.com ([209.85.214.179])
+  by mx.colorado.edu with ESMTP; 01 Nov 2010 16:47:03 -0600
+Received: by iwn2 with SMTP id 2so7125134iwn.24
+        for <Ethan.Welty@colorado.edu>; Mon, 01 Nov 2010 15:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:in-reply-to
+         :references:date:message-id:subject:from:to:cc:content-type;
+        bh=09a5nwUCDYvIqa/QR8RYXWH1lBkLhEu6Et4Lc9PXg8Q=;
+        b=SyVeG2yTbfswSJVnWBzmSDgi7qKZRYxiciNdkohyH1HL/yZXaQnPpxQ2ad4GFfZOGB
+         BNEBWsd6XbJjlcA78IDq/O4YCFsj0N46ZSvSP/MKZMpGP3WSPO6hcx+D/R/yLuUh2CyY
+         teM5YWihAF/zvT2DJ51XMWAkfJtYjY/mxXpNg=
+DomainKey-Signature: a=rsa-sha1; c=nofws;
+        d=gmail.com; s=gamma;
+        h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+         :cc:content-type;
+        b=iqnyBhcOoB7f3meKn6cqsIdO+zPpKne0igv59dmG3UPwe/CpyOcdBzYrzuAvwfRIQy
+         xclWvebtII83gewDqKrZmF7NhasKKuxT+jDt+0xLsIjtfRi+BtABB7KFmKz/KJC50ACB
+         1HZgVtQbQIayOpBteyi5R7hKkruNqJMsQlGMI=
+MIME-Version: 1.0
+Received: by 10.42.103.206 with SMTP id n14mr2422364ico.214.1288651623249;
+ Mon, 01 Nov 2010 15:47:03 -0700 (PDT)
+Received: by 10.231.33.205 with HTTP; Mon, 1 Nov 2010 15:47:03 -0700 (PDT)
+In-Reply-To: <AANLkTimqVg1ZFdnQuT1fGN8H+VCPmha-4Q5UUO3ZrxKm@mail.gmail.com>
+References: <AANLkTin+OiCAdP_=thsH+sDfyZ0YDnPanQ02VV8FX-rM@mail.gmail.com>
+	<AANLkTikfwHfw9A-5Xn+dVTin9BBDmH9gDXh4ExdWVPGi@mail.gmail.com>
+	<AANLkTimqVg1ZFdnQuT1fGN8H+VCPmha-4Q5UUO3ZrxKm@mail.gmail.com>
+Date: Mon, 1 Nov 2010 14:47:03 -0800
+Message-ID: <AANLkTimJgXcQGXWU_bbEP3bsFLGBdF=it+vn0yVe59OJ@mail.gmail.com>
+Subject: Re: Columbia netrs daily solutions
+From: "Shad O'Neel" <shad.oneel@gmail.com>
+To: Ian Howat <ihowat@gmail.com>
+Cc: Tad Pfeffer <wtpfeffer@gmail.com>,
+        Ethan Zolten Welty <Ethan.Welty@colorado.edu>,
+        Julie Markus <julie.markus7@gmail.com>,
+        Phaedra Tinder <pctinder@gmail.com>,
+        Alberto Behar <Alberto.E.Behar@jpl.nasa.gov>
+Content-Type: multipart/alternative; boundary=20cf303f6e5a3e377404940596b7
+
+--20cf303f6e5a3e377404940596b7
+Content-Type: text/plain; charset=ISO-8859-1
+
+Cool. Thanks Phaedra and Ian! My hope is to return my brain to these results
+next week.  This is encouraging.  Looks like the blue curve S2 has a diurnal
+residual, interestong. Trying to recall where each system was on the glacier
+and paste that together with personal expectations.....
+
+Shad
+
+
+On Mon, Nov 1, 2010 at 2:27 PM, Ian Howat <ihowat@gmail.com> wrote:
+
+> looks like the S2 plot didnt make it....
+>
+> On Mon, Nov 1, 2010 at 6:26 PM, Ian Howat <ihowat@gmail.com> wrote:
+> > Today's data installment is the EDGEE solutions that Phaedra
+> > processed. The two plots are data from the "S1" (fast ice) and
+> > "S2"(slower ice stations after moving them). The top panel in each are
+> > the displacements along the flow lines, with a 5th order polynomial
+> > fit to them.
+> > The middle panel is the residual of the model (i.e. displacement minus
+> > the polynomial model fit).
+> > The lower panel is the speed given by the differentiation of the
+> > polynomial with respect to time.
+> >
+> > So the bottom panel is the longer-time scale speed variation while the
+> > middle is the shorter-term variability.
+> >
+> > Some interesting variations here - speed appears to briefly increase,
+> > peak around day 145, and then decrease steaditly, by nearly 50% at
+> > S1R1.
+> >
+> > Some interesting short term variability as well.
+> >
+> > I've attached a mat file with the data and the mfile I used to
+> > generate the plots.
+> >
+> > Ian
+> >
+> > On Fri, Oct 29, 2010 at 5:53 PM, Ian Howat <ihowat@gmail.com> wrote:
+> >> Hey All,
+> >>
+> >>
+> >> Julie found that the netrs data is kind of a mess and very hard to
+> >> process with track. It will take quite a bit of manual work to get the
+> >> kinematic processed. In the meantime, we processed the daily solutions
+> >> using PPP to get avg speeds and see if any interesting variations pop
+> >> out. Plots of the displacements are attached along with an matlab
+> >> script with the data, processing and plotting functions. I corrected
+> >> for the offset due to the dig-out on day 137 by fitting a trend to the
+> >> 1st ~10 or so days of data and then subtracting the offset from that
+> >> initial trend from the later solutions.
+> >>
+> >> Some interesting things here, the lowest station takes quite a jog
+> >> back and forth.
+> >>
+> >> Im thinking it's probably worth processing a couple days of the lowest
+> >> station just to see if there's any diurnal cycle.
+> >>
+> >>
+> >> Phaedra has processed the EDGEE data and Ill get to that next.
+> >>
+> >>
+> >> Ian
+> >>
+> >
+>
+
+
+
+-- 
+Shad O'Neel
+USGS Glaciologist
+Alaska Science Center
+4210 University Dr.
+Anchorage AK 99508
+907.786.7088
+
+--20cf303f6e5a3e377404940596b7
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Cool. Thanks Phaedra and Ian! My hope is to return my brain to these result=
+s next week.=A0 This is encouraging.=A0 Looks like the blue curve S2 has a =
+diurnal residual, interestong. Trying to recall where each system was on th=
+e glacier and paste that together with personal expectations.....<br>
+<br>Shad<br><br><br><div class=3D"gmail_quote">On Mon, Nov 1, 2010 at 2:27 =
+PM, Ian Howat <span dir=3D"ltr">&lt;<a href=3D"mailto:ihowat@gmail.com">iho=
+wat@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin: 0pt 0pt 0pt 0.8ex; border-left: 1px solid rgb(204, 204, 204)=
+; padding-left: 1ex;">
+looks like the S2 plot didnt make it....<br>
+<div><div></div><div class=3D"h5"><br>
+On Mon, Nov 1, 2010 at 6:26 PM, Ian Howat &lt;<a href=3D"mailto:ihowat@gmai=
+l.com">ihowat@gmail.com</a>&gt; wrote:<br>
+&gt; Today&#39;s data installment is the EDGEE solutions that Phaedra<br>
+&gt; processed. The two plots are data from the &quot;S1&quot; (fast ice) a=
+nd<br>
+&gt; &quot;S2&quot;(slower ice stations after moving them). The top panel i=
+n each are<br>
+&gt; the displacements along the flow lines, with a 5th order polynomial<br=
+>
+&gt; fit to them.<br>
+&gt; The middle panel is the residual of the model (i.e. displacement minus=
+<br>
+&gt; the polynomial model fit).<br>
+&gt; The lower panel is the speed given by the differentiation of the<br>
+&gt; polynomial with respect to time.<br>
+&gt;<br>
+&gt; So the bottom panel is the longer-time scale speed variation while the=
+<br>
+&gt; middle is the shorter-term variability.<br>
+&gt;<br>
+&gt; Some interesting variations here - speed appears to briefly increase,<=
+br>
+&gt; peak around day 145, and then decrease steaditly, by nearly 50% at<br>
+&gt; S1R1.<br>
+&gt;<br>
+&gt; Some interesting short term variability as well.<br>
+&gt;<br>
+&gt; I&#39;ve attached a mat file with the data and the mfile I used to<br>
+&gt; generate the plots.<br>
+&gt;<br>
+&gt; Ian<br>
+&gt;<br>
+&gt; On Fri, Oct 29, 2010 at 5:53 PM, Ian Howat &lt;<a href=3D"mailto:ihowa=
+t@gmail.com">ihowat@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; Hey All,<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Julie found that the netrs data is kind of a mess and very hard to=
+<br>
+&gt;&gt; process with track. It will take quite a bit of manual work to get=
+ the<br>
+&gt;&gt; kinematic processed. In the meantime, we processed the daily solut=
+ions<br>
+&gt;&gt; using PPP to get avg speeds and see if any interesting variations =
+pop<br>
+&gt;&gt; out. Plots of the displacements are attached along with an matlab<=
+br>
+&gt;&gt; script with the data, processing and plotting functions. I correct=
+ed<br>
+&gt;&gt; for the offset due to the dig-out on day 137 by fitting a trend to=
+ the<br>
+&gt;&gt; 1st ~10 or so days of data and then subtracting the offset from th=
+at<br>
+&gt;&gt; initial trend from the later solutions.<br>
+&gt;&gt;<br>
+&gt;&gt; Some interesting things here, the lowest station takes quite a jog=
+<br>
+&gt;&gt; back and forth.<br>
+&gt;&gt;<br>
+&gt;&gt; Im thinking it&#39;s probably worth processing a couple days of th=
+e lowest<br>
+&gt;&gt; station just to see if there&#39;s any diurnal cycle.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Phaedra has processed the EDGEE data and Ill get to that next.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Ian<br>
+&gt;&gt;<br>
+&gt;<br>
+</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br>Shad O&#39;=
+Neel<br>USGS Glaciologist<br>Alaska Science Center<br>4210 University Dr.<b=
+r>Anchorage AK 99508<br>907.786.7088<br><br>
+
+--20cf303f6e5a3e377404940596b7--
+
