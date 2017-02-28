@@ -1,0 +1,40 @@
+clear all
+close all
+% Working Directory for CG Geostatistics:
+% C:\MyFiles\Columbia\Geostatistics
+
+addpath('C:\MyFiles\MatlabUtilities')
+data = xlsread('Snehalatas_Alldata'); %loads flights 102/103 data
+
+% %  Excel file contains 15 columns:
+% 1: target ID
+% 2: Xinitial (Easting)
+% 3: Yinitial (Northing)
+% 4: Zinitial
+% 5: target ID (= column 1; check)
+% 6: Xfinal
+% 7: Yfinal
+% 8: Zfinal
+% 9: target ID (= coumn 1; check)
+% 10: xcoord (midpoint)
+% 11: xdisplacement (m) (Easting)
+% 12: ycoord (midpoint)
+% 13: ydisplacment (m) (Northing)
+% 14: zcoord (midpoint)
+% 15: zdisplacement (m)
+
+xp=data(:,10); %x = Easting
+yp=data(:,12); %y = Northing
+zp=data(:,14); %z = Elevation
+
+%Plot the grid of points
+figure(1); clf
+plot(xp,yp); axis('equal')
+title('Map, Flight 102/103')
+
+%Plot ordered range of displacements
+figure(2); clf
+
+
+
+

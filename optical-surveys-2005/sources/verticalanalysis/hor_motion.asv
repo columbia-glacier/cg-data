@@ -1,0 +1,72 @@
+clear all
+close all
+
+
+load marker1 %[t x y z]
+load marker3
+load marker4
+
+t1= marker1(:,1);
+x1= marker1(:,2); 
+y1= marker1(:,3);
+
+t3= marker3(:,1);
+x3= marker3(:,2);
+y3= marker3(:,3);
+
+t4= marker4(:,1);
+x4= marker4(:,2);
+y4= marker4(:,3);
+
+%calulate speeds marker 1
+n1=length(x1);  %number data
+for i=1:n1-1
+
+t_avg1(i)=(t1(i+1)+t1(i))./2;    %average times
+disp1(i)=sqrt((x1(i+1)-x1(i)).^2+(y1(i+1)-y1(i)).^2);  %displacements (new vector)
+end
+
+delta_t1=diff(t1);   %time intervals between measurements
+
+v1=disp1./delta_t1';  %velocity
+
+
+%marker 3
+n3=length(x3);  %number data
+for i=1:n3-1
+
+t_avg3(i)=(t3(i+1)+t3(i))./2;    %average times
+disp3(i)=sqrt((x3(i+1)-x3(i)).^2+(y3(i+1)-y3(i)).^2);  %displacements (new vector)
+end
+
+delta_t3=diff(t3);   %time intervals between measurements
+
+v3=disp3./delta_t3';  %velocity
+
+%marker 4
+n4=length(x4);  %number data
+for i=1:n4-1
+
+t_avg4(i)=(t4(i+1)+t4(i))./2;    %average times
+disp4(i)=sqrt((x4(i+1)-x4(i)).^2+(y4(i+1)-y4(i)).^2);  %displacements (new vector)
+end
+
+delta_t4=diff(t4);   %time intervals between measurements
+
+v4=disp4./delta_t4';  %velocity
+
+tmin=154; tmax=176; 
+stepsize=1/24; 
+winsize=3/24;
+
+[t1_sm,v1_sm]=nonparametric_smooth(t_avg1,v1,tmin,tmax,stepsize,winsize);
+
+
+figure(1)
+subplot(3,1,1);hold on
+plot(t_avg1,v1);axis([154 176 8 20])
+subplot(3,1,2);hold on
+plot(t_avg3,v3,'r');axis([154 176 8 20])
+subplot(3,1,3);hold on
+plot(t_avg4,v4,'k');axis([154 176 8 20])
+
