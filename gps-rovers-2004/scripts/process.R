@@ -1,7 +1,7 @@
 # Install missing dependencies
-packages <- c("gdal", "readxl")
+packages <- c("rgdal", "readxl")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-  install.packages(setdiff(packages, rownames(installed.packages())))  
+  install.packages(setdiff(packages, rownames(installed.packages())))
 }
 
 # ---- Short track (1) ----
