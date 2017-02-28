@@ -85,6 +85,10 @@ gun_local <- c(5000, 5000, 1000)
 gun <- c(497126.859, 6775852.739, 0) # -147.0554716 61.11859955 : GPS/2005/ROVER/03011570.dat, (03011610.dat)
 ref <- c(497126.388, 6775984.429, 0) # -147.0554824 61.11978182 : GPS/2005/ROVER/03011571.dat
 
+base_lat <- 61 + 7 / 60 + 17.80430 / 3600
+base_lng <- -(147 + 2 / 60 + 53.15913 / 3600)
+base_h <- 269.467
+
 # 03011570.dat
 xy <- data.frame(x = -147.055482, y = 61.118632)
 # 03011571.dat
@@ -93,6 +97,7 @@ xy <- data.frame(x = -147.055510, y = 61.119802)
 xy <- data.frame(x = -147.055470, y = 61.118565)
 
 xy <- data.frame(x = gun[1], y = gun[2])
+xy <- data.frame(x = base_lng, y = base_lat)
 sp::coordinates(xy) <- c("x", "y")
 sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
 # sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
