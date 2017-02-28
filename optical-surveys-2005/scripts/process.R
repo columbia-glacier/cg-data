@@ -1,3 +1,5 @@
+# http://web.archive.org/web/20130905025856/http://surveying.wb.psu.edu/sur351/DatumTrans/datum_transformations.htm
+
 # Install missing dependencies
 packages <- c("readxl")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
@@ -85,9 +87,44 @@ gun_local <- c(5000, 5000, 1000)
 gun <- c(497126.859, 6775852.739, 0) # -147.0554716 61.11859955 : GPS/2005/ROVER/03011570.dat, (03011610.dat)
 ref <- c(497126.388, 6775984.429, 0) # -147.0554824 61.11978182 : GPS/2005/ROVER/03011571.dat
 
+xy <- data.frame(x = gun[1], y = gun[2])
+sp::coordinates(xy) <- c("x", "y")
+sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
+sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
+
+xy <- data.frame(x = ref[1], y = ref[2])
+sp::coordinates(xy) <- c("x", "y")
+sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
+sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
+
+xy <- data.frame(x = gun[1], y = gun[2])
+sp::coordinates(xy) <- c("x", "y")
+sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
+sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
+
+xy <- data.frame(x = ref[1], y = ref[2])
+sp::coordinates(xy) <- c("x", "y")
+sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
+sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
+
+# BASE (GPS/2004/coords_out_sept13.xls)
 base_lat <- 61 + 7 / 60 + 17.80430 / 3600
 base_lng <- -(147 + 2 / 60 + 53.15913 / 3600)
 base_h <- 269.467
+xy <- data.frame(x = base_lng, y = base_lat)
+sp::coordinates(xy) <- c("x", "y")
+sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
+temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
+print(temp@coords, digits = 10)
+
+# BBB ()
+lat <- 61 + 7 / 60 + 14.07942 / 3600
+lng <- -(147 + 3 / 60 + 2.75583 / 3600)
+xy <- data.frame(x = lng, y = lat)
+sp::coordinates(xy) <- c("x", "y")
+sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
+temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
+print(temp@coords, digits = 10)
 
 # 03011570.dat
 xy <- data.frame(x = -147.055482, y = 61.118632)
@@ -97,14 +134,16 @@ xy <- data.frame(x = -147.055510, y = 61.119802)
 xy <- data.frame(x = -147.055470, y = 61.118565)
 
 xy <- data.frame(x = gun[1], y = gun[2])
-xy <- data.frame(x = base_lng, y = base_lat)
 sp::coordinates(xy) <- c("x", "y")
 sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
-# sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
-# sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
-# temp <- sp::spTransform(xy, sp::CRS("+proj=longlat +datum=WGS84"))
+sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
+
+temp <- sp::spTransform(xy, sp::CRS("+proj=longlat +datum=WGS84"))
 temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-# temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
+temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=NAD83"))
+temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=NAD27"))
+temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
+temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=GRS80 +towgs84=0,0,0 +units=m +no_defs"))
 print(temp@coords, digits = 10)
 
 # GPS/2009/May09/coords09_v2.CSV
@@ -122,10 +161,9 @@ gun_nad27 <- c(497099.142, 6776027.292, 141.354)
 xy <- data.frame(x = gun_latlng[1], y = gun_latlng[2])
 sp::coordinates(xy) <- c("x", "y")
 sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
-# sp::spTransform(xy, sp::CRS("+proj=utm +zone=6"))
+sp::spTransform(xy, sp::CRS("+proj=utm +zone=6"))
 # sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +datum=NAD27"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
-print(temp@coords, digits = 12)
+sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
 
 
 
