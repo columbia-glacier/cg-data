@@ -4,7 +4,7 @@ Preview this [Data Package](http://specs.frictionlessdata.io/data-packages/) usi
 
 ## Citation
 
-> O’Neel, S. (2006). Understanding the mechanics of tidewater glacier retreats: Observations and analyses at Columbia Glacier, Alaska (Ph.D.). University of Colorado at Boulder. Retrieved from http://adsabs.harvard.edu/abs/2006PhDT........31O
+> Shad O'Neel (2006). Understanding the mechanics of tidewater glacier retreats: Observations and analyses at Columbia Glacier, Alaska (Ph.D.). University of Colorado at Boulder. Retrieved from http://adsabs.harvard.edu/abs/2006PhDT........31O.
 
 Section A3.2.2: Optical Surveys
 
