@@ -12,7 +12,7 @@ Abstract
 
 ## Analog-Digital Conversion
 
-A [scanned copy of the report](sources/Vaughn et al. 1985.pdf) was downloaded from the [USGS Publications Warehouse](https://pubs.er.usgs.gov/publication/ofr85487). The number tables for Table 1 (sources/table-1.csv), Appendix 1 (sources/appendix-1.csv), and Appendix 2 (sources/appendix-2.csv) were extracted with [tabula](https://github.com/tabulapdf/tabula) and reshaped with [atom](https://github.com/atom/atom), then checked visually overlaid on the original report using Adobe Illustrator. 
+The scanned copy of the report ([Vaughn et al. 1985.pdf](sources/Vaughn et al. 1985.pdf)) was downloaded from the [USGS Publications Warehouse](https://pubs.er.usgs.gov/publication/ofr85487). The data in Table 1 ([table-1.csv](sources/table-1.csv)), Appendix 1 ([appendix-1.csv](sources/appendix-1.csv)), and Appendix 2 ([appendix-2.csv](sources/appendix-2.csv)) were extracted with [tabula](https://github.com/tabulapdf/tabula) and reshaped with [atom](https://github.com/atom/atom), then checked visually overlaid on the original report using Adobe Illustrator.
 
 ## To Do
 
