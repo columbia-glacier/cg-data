@@ -1,24 +1,49 @@
+# ---- Install missing dependencies ----
+
+packages <- c("sp")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(packages, rownames(installed.packages())))
+}
+
 # ---- Load functions ----
 
-# Equation 1
-# Convert local to UTM coordinates
-# x = (UTM Easting - 490000) / 0.9996
-# y = (UTM Northing - 6750000) / 0.9996
+#' Convert UTM to Local coordinates
+#' 
+#' Equation 1 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
+#' x = (UTM Easting - 490000) / 0.9996
+#' y = (UTM Northing - 6750000) / 0.9996
+#' 
+#' @param xy UTM coordinates (NAD27 Zone 6N - Robert Krimmel, email: 2014-02-24; L.A. Rasmussen, email: 2014-02-24).
+#' @return Local coordinates.
 eq1_utm_to_local <- function(xy) {
   xy[, 1] <- (xy[, 1] - 490000) / 0.9996
   xy[, 2] <- (xy[, 2] - 6750000) / 0.9996
   return(xy)
 }
+
+#' Convert Local to UTM Coordinates
+#'
+#' Reverse of Equation 1 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}): 
+#' UTM Easting = (x * 0.9996) + 490000
+#' UTM Northing = (y * 0.9996) + 6750000
+#'
+#' @param xy Local coordinates.
+#' @return UTM coordinates (NAD27 Zone 6N - Robert Krimmel, email: 2014-02-24; L.A. Rasmussen, email: 2014-02-24).
 eq1_local_to_utm <- function(xy) {
   xy[, 1] <- (xy[, 1] * 0.9996) + 490000
   xy[, 2] <- (xy[, 2] * 0.9996) + 6750000
   return(xy)
 }
 
-# Equation 2
-# Convert azimuth angle in grads (to the right of Easy) to radians (counterclockwise from the +x axis)
-# theta_G = 8.285744 - (pi / 200) * theta_hat_G
-# theta_Q = 5.005084 - (pi / 200) * theta_hat_Q
+#' Align Azimuth Angle to UTM Grid
+#' 
+#' Equation 2 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
+#' theta_G = 8.285744 - (pi / 200) * theta_hat_G
+#' theta_Q = 5.005084 - (pi / 200) * theta_hat_Q
+#' 
+#' @param theta_hat Azimuth angle in grads to the right of Easy.
+#' @param station Name of the survey station: either "New Gilbert" / "G" or "New Quickie" / "Q".
+#' @return Radians counterclockwise from the UTM +x axis (east).
 eq2_theta_hat_to_theta <- function(theta_hat, station) {
     theta <- mapply(theta_hat, station, FUN = function(t, s) {
       if (s %in% c("New Gilbert", "G")) {
@@ -32,32 +57,55 @@ eq2_theta_hat_to_theta <- function(theta_hat, station) {
     return(theta)
 }
 
-# Equation 4
-# Intersect sighting lines from New Gilbert and New Quickie (neglecting the effect of Earth's curvature)
-# x_T = (1 / (tan(theta_Q) - tan(theta_G))) * ((y_G - tan(theta_G) * x_G) - (y_Q - tan(theta_Q) * x_Q))
-# y_T = (1 / (tan(theta_Q) - tan(theta_G))) * (tan(theta_Q) * (y_G - tan(theta_G) * x_G) - tan(theta_G) * (y_Q - tan(theta_Q) * x_Q))
+#' Triangulate Marker Positions
+#' 
+#' Equation 4 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
+#' x_T = (1 / (tan(theta_Q) - tan(theta_G))) * ((y_G - tan(theta_G) * x_G) - (y_Q - tan(theta_Q) * x_Q))
+#' y_T = (1 / (tan(theta_Q) - tan(theta_G))) * (tan(theta_Q) * (y_G - tan(theta_G) * x_G) - tan(theta_G) * (y_Q - tan(theta_Q) * x_Q))
+#'
+#' Finds the intersection of sighting lines from New Gilbert and New Quickie (survey stations), neglecting the Earth's curvature.
+#' 
+#' @param xyz_G Position of New Gilbert in local coordinates.
+#' @param theta_G Azimuth angle (radians counterclockwise from east) sightings from New Gilbert.
+#' @param xyz_Q Position of New Quickie in local coordinates.
+#' @param theta_Q Azimuth angle (radians counterclockwise from east) sighting from New Quickie
+#' @return Horizontal marker positions in local coordinates.
 eq4_target_xy <- function(xyz_G, theta_G, xyz_Q, theta_Q) {
   x_T <- (1 / (tan(theta_Q) - tan(theta_G))) * ((xyz_G[2] - tan(theta_G) * xyz_G[1]) - (xyz_Q[2] - tan(theta_Q) * xyz_Q[1]))
   y_T <- (1 / (tan(theta_Q) - tan(theta_G))) * (tan(theta_Q) * (xyz_G[2] - tan(theta_G) * xyz_G[1]) - tan(theta_G) * (xyz_Q[2] - tan(theta_Q) * xyz_Q[1]))
   return(data.frame(x = x_T, y = y_T))
 }
 
-# Equation 5
-# Compute height of the marker (accounting for refraction and Earth's curvature)
-# z_T = z_S + h_S + (6.8 * 10^-8 * r_S - tan(phi_S)) * r_S
-# r_S = sqrt((x_S - x_T)^2 + (y_S - y_T)^2)
-# where S is either Q or G, h is instrument height above the ground, and phi is radians below the local horizontal.
-# NOTE: Appendix 1 lists phi in grads, so a conversion to radians is necessary.
+#' Triangulate Marker Heights
+#' 
+#' Equation 5 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
+#' z_T = z_S + h_S + (6.8 * 10^-8 * r_S - tan(phi_S)) * r_S
+#' r_S = sqrt((x_S - x_T)^2 + (y_S - y_T)^2)
+#' where S is either Q or G.
+#' 
+#' Computes the height of the marker, accounting for refraction and Earth's curvature.
+#' 
+#' @param xy_T Horizontal marker positions in local coordinates. 
+#' @param xyz Survey station position in local coordinates.
+#' @param phi Elevation angle (grads below the local horizontal) sightings from survey station.
+#' @param h Height (in meters) of survey station above the ground.
 eq5_target_z <- function(xy_T, xyz, phi, h) {
   r <- sqrt((xyz[1] - xy_T[1])^2 + (xyz[2] - xy_T[2])^2)
   z_T <- xyz[3] + h + (6.8 * 10^-8 * r - tan(phi)) * r
   return(z_T)
 }
 
-# Equation 8 (generalized)
-# Find intersection of ray with line or line segment
+#' Intersect Line (Segment) with Ray
+#' 
+#' Generalized form of Equation 8 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}).
+#' Inspired by \url{http://paulbourke.net/geometry/pointlineplane/}.
+#'
+#' @param edge Endpoints of the line segment [x0 y0; x1 y1].
+#' @param origin Origin of the ray [x y].
+#' @param theta Angle of the ray (radians counterclockwise from +x).
+#' @param edge_as_line Whether to interpret the edge as a line (\code{TRUE}) or line segment (\code{FALSE}, the default).
+#' @return Coordinates of the intersection [x y], or empty if none.
 eq8_intersect_edge_ray <- function(edge, origin, theta, edge_as_line = FALSE) {
-  # http://paulbourke.net/geometry/pointlineplane/
   # Force theta to [-pi, pi] range
   theta <- ifelse(theta < pi, theta, theta - 2 * pi)
   # Compute vector directions
@@ -77,10 +125,16 @@ eq8_intersect_edge_ray <- function(edge, origin, theta, edge_as_line = FALSE) {
   return(matrix(intersection, ncol = 2))
 }
 
-# Equation 10 (generalized)
-# Find intersections of circle with line segment
+#' Intersect Line Segment with Circle
+#' 
+#' Generalized form of Equation 10 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}).
+#' Inspired by \url{http://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm}.
+#' 
+#' @param edge Endpoints of the line segment [x0 y0; x1 y1].
+#' @param center Center of the circle [x y].
+#' @param radius Radius of the circle.
+#' @return Coordinates of the intersection(s) [x0 y0; ...], or empty if none.
 eq10_intersect_edge_circle <- function(edge, center, radius) {
-  # http://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
   d <- as.vector(diff(edge))
   f <- edge[1, ] - center
   polycoeffs <- c(f %*% f - radius^2, 2 * f %*% d, a <- d %*% d)
@@ -94,17 +148,30 @@ eq10_intersect_edge_circle <- function(edge, center, radius) {
   return(intersections)
 }
 
-# Convert Julian day to date time
-# "Time is represented by the Julian day of 1984; it is 214.000 at 0000 hours local time on August 1, 1984 and increases by 1 each day thereafter." [pg 8]
+#' Convert 1984 Julian Day to UTC Date Time
+#' 
+#' Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}), page 8:
+#' "Time is represented by the Julian day of 1984; it is 214.000 at 0000 hours local time on August 1, 1984 and increases by 1 each day thereafter."
+#' 
+#' The offset between local Alaska time and UTC was determined from \url{https://www.timeanddate.com/time/change/usa/anchorage?year=1984}.
+#' 
+#' @param julian_day Julian day of 1984 in AKDT (UTC - 8).
+#' @return ISO 8601 date time in UTC.
 #' @examples
-#' julian_day_to_datetime(214)
-julian_day_to_datetime <- function(julian_day) {
+#' julian_day_to_utc_datetime(214) == "1984-08-01T08:00:00Z"
+julian_day_to_utc_datetime <- function(julian_day) {
+  julian_day_utc <- julian_day + 8 / 24
   origin <- strptime("1983-12-31 00:00:00", "%Y-%m-%d %H:%M:%S", tz = "UTC")
-  datetime <- format(as.POSIXlt(julian_day * (60 * 60 * 24), tz = "UTC", origin = origin), "%Y-%m-%dT%H:%M:%SZ")
+  datetime <- format(as.POSIXlt(julian_day_utc * (60 * 60 * 24), tz = "UTC", origin = origin), "%Y-%m-%dT%H:%M:%SZ")
   return(datetime)
 }
 
-# Convert NAD27 to WGS84 UTM (Alaska, Zone 6N)
+#' Convert NAD27 to WGS84 UTM (Alaska, Zone 6N)
+#' 
+#' Custom transformation parameters from \url{http://web.archive.org/web/20130905025856/http://surveying.wb.psu.edu/sur351/DatumTrans/datum_transformations.htm}.
+#' 
+#' @param xy NAD27 Zone 6N UTM coordinates.
+#' @return WGS84 Zone 6N UTM coordinates.
 nad27_to_wgs84_utm <- function(xy) {
   current_proj4 <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
   target_proj4 <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
@@ -155,7 +222,6 @@ appendix1$K_phi <- errors[appendix1$K_phi + 1]
 appendix1 <- appendix1[order(appendix1$t), ]
 
 ## Compute marker trajectories
-
 # "Because sightings of the moving markers were not made simultaneously from the two survey stations, time interpolation in the angle data from one, or the other, or sometimes both stations was used to get synchronous values for use in equations 2-6." [pg 11]
 # "When azimuth angles to a marker were available from both survey stations, they were used (equations 3,4) to establish the marker's x, y trajectory, which was approximated by a straight line (table 2). The azimuth angles theta from the station with the more numerous sightings of a marker were then used (equation 8) to estimate the velocity along the trajectory." [pg 16]
 
@@ -355,8 +421,7 @@ for (marker in unique(df$marker)) {
 mdf <- df
 
 # Convert decimal day (local time) to ISO 8601 (UTC)
-# UTC = AKDT + 8 (https://www.timeanddate.com/time/change/usa/anchorage?year=1984)
-mdf$t <- julian_day_to_datetime(mdf$t + (8 / 24))
+mdf$t <- julian_day_to_utc_datetime(mdf$t)
 
 # Convert local coordinates to WGS84 UTM Zone 6N
 xy_nad27 <- eq1_local_to_utm(mdf[, c("x", "y")])
@@ -444,8 +509,7 @@ lines(smt, smv)
 mdf <- appendix2
 
 # Convert decimal day (local time) to ISO 8601 (UTC)
-# UTC = AKDT + 8 (https://www.timeanddate.com/time/change/usa/anchorage?year=1984)
-mdf$t <- julian_day_to_datetime(mdf$t + (8 / 24))
+mdf$t <- julian_day_to_utc_datetime(mdf$t)
 
 # Convert local coordinates to WGS84 UTM Zone 6N
 xy_nad27 <- eq1_local_to_utm(mdf[, c("x", "y")])
