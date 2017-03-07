@@ -10,6 +10,10 @@ Abstract
 
 > Ice velocity data are presented for the lower reach of Columbia Glacier, Alaska. The data span a 29 day period and contain 1,072 angle sightings from two survey stations to 22 markers placed on the ice surface, and 1,621 laser measurements of the distance to one of those markers (number 11) from another station. These short-interval observations were made to investigate the dynamics of the glacier and to provide input to models for estimation of future retreat and iceberg discharge. The mean ice velocity (at marker number 11) was approximately 9 m/day and ranged from 8 to >15 m/day. The data set includes a well defined 2-day, 50% velocity increase and a clear pattern of velocity fluctuations of about 5% with approximately diurnal and semi-diurnal periods.
 
-## TODO
+## Analog-Digital Conversion
 
-- Convert original elevations (relative to local sea level) to height above the WGS84 ellipsoid?
+A [scanned copy of the report](sources/Vaughn et al. 1985.pdf) was downloaded from the [USGS Publications Warehouse](https://pubs.er.usgs.gov/publication/ofr85487). The number tables for Table 1 (sources/table-1.csv), Appendix 1 (sources/appendix-1.csv), and Appendix 2 (sources/appendix-2.csv) were extracted with [tabula](https://github.com/tabulapdf/tabula) and reshaped with [atom](https://github.com/atom/atom), then checked visually overlaid on the original report using Adobe Illustrator. 
+
+## To Do
+
+- Convert original elevations (relative to local sea level) to height above the WGS84 ellipsoid.
