@@ -430,7 +430,7 @@ mdf[, c("x", "y")] <- xy_wgs84
 
 ## Save results
 
-write.csv(mdf, "data/markers.csv", row.names = FALSE, quote = FALSE)
+write.csv(mdf, "data/markers.csv", row.names = FALSE, quote = FALSE, na = "")
 
 # ---- EDM measurements ----
 
@@ -521,4 +521,4 @@ mdf$marker <- 11
 
 ## Save results
 
-write.csv(mdf[, c("marker", "t", "x", "y")], "data/marker11.csv", row.names = FALSE, quote = FALSE)
+write.csv(mdf[, c("marker", "t", "x", "y")], "data/marker11.csv", row.names = FALSE, quote = FALSE, na = "")
