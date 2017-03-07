@@ -1,0 +1,91 @@
+{
+  "name": "optical-surveys-1984",
+  "title": "Optical Surveys (1984)",
+  "description": "Ice velocity data are presented for the lower reach of Columbia Glacier, Alaska. The data span a 29 day period and contain 1,072 angle sightings from two survey stations to 22 markers placed on the ice surface, and 1,621 laser measurements of the distance to one of those markers (number 11) from another station. (Vaughn et al., 1985, Abstract)",
+  "version": "0.1.0",
+  "contributors": [
+    {
+      "name": "Ethan Welty",
+      "email": "ethan.welty@gmail.com",
+      "roles": "Tabulated the source data from the paper report, assembled and published the datapackage."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Original data, scripts, and documentation",
+      "path": "sources/"
+    }
+  ],
+  "resources": [
+    {
+      "name": "markers",
+      "title": "Marker Trajectories",
+      "description": "Trajectories for 22 markers triangulated from 1,072 angle sightings from survey stations New Gilbert and New Quickie.",
+      "path": "data/markers.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "marker",
+            "type": "integer",
+            "description": "Grouping variable (marker #)."
+          },
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
+          },
+          {
+            "name": "x",
+            "type": "number",
+            "description": "Easting (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+          },
+          {
+            "name": "y",
+            "type": "number",
+            "description": "Northing (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+          },
+          {
+            "name": "z_G",
+            "type": "number",
+            "description": "Height (m) above local sea level (unknown datum), calculated from sightings from New Gilbert."
+          },
+          {
+            "name": "z_Q",
+            "type": "number",
+            "description": "Height (m) above local sea level (unknown datum), calculated from sightings from New Quickie."
+          }
+        ]
+      }
+    },
+    {
+      "name": "marker-11",
+      "title": "High-frequency Marker 11 Trajectory",
+      "description": "High-frequency trajectory for marker 11 triangulated from electronic distance meter measurements on Heather Island and the trajectory computed from angle sightings.",
+      "path": "data/marker11.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "marker",
+            "type": "integer",
+            "description": "Grouping variable (marker #)."
+          },
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
+          },
+          {
+            "name": "x",
+            "type": "number",
+            "description": "Easting (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+          },
+          {
+            "name": "y",
+            "type": "number",
+            "description": "Northing (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+          }
+        ]
+      }
+    }
+  ]
+}
