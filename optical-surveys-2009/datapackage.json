@@ -1,0 +1,53 @@
+{
+  "name": "optical-surveys-2009",
+  "title": "Optical Surveys (2009)",
+  "description": "Preliminary trajectory of an Ohio State University GPS receiver on the glacier main branch tracked by optical survey. Coordinates are local and arbitrary.",
+  "version": "0.1.0",
+  "contributors": [
+    {
+      "name": "Ethan Welty",
+      "email": "ethan.welty@gmail.com",
+      "roles": "Assembled and published the datapackage."
+    },
+    {
+      "name": "Shad O'Neel",
+      "roles": "Performed the research and processed the data."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Original data, scripts, and documentation",
+      "path": "sources/"
+    }
+  ],
+  "resources": [
+    {
+      "name": "positions",
+      "path": "data/positions.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
+          },
+          {
+            "name": "x",
+            "type": "number",
+            "description": "Meters along an arbitrary x-axis (theodolite: 5000 m)."
+          },
+          {
+            "name": "y",
+            "type": "number",
+            "description": "Meters along an arbitrary y-axis (theodolite: 5000 m)."
+          },
+          {
+            "name": "z",
+            "type": "number",
+            "description": "Elevation (m) relative to an abitrary height (theodolite: 1000 m)."
+          }
+        ]
+      }
+    }
+  ]
+}
