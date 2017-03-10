@@ -27,14 +27,14 @@
       "schema": {
         "fields": [
           {
-            "name": "id",
-            "type": "string",
-            "description": "Grouping variable (track #)."
+            "name": "t_start",
+            "type": "datetime",
+            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
           },
           {
-            "name": "t",
+            "name": "t_stop",
             "type": "datetime",
-            "description": "ISO 8601 date and time (YYYY-MM-DD hh:mm:ss) in UTC."
+            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
           },
           {
             "name": "x",
