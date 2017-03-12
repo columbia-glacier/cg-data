@@ -1,0 +1,200 @@
+{
+  "name": "noaa-coops",
+  "title": "NOAA CO-OPS Station Data",
+  "description": "Water level and meteorological observations from nearby NOAA CO-OPS stations.",
+  "version": "0.1.0",
+  "contributors": [
+    {
+      "name": "Ethan Welty",
+      "email": "ethan.welty@gmail.com",
+      "roles": "Assembled and published the datapackage."
+    }
+  ],
+  "sources": [
+    {
+      "name": "CO-OPS API For Data Retrieval",
+      "web": "https://tidesandcurrents.noaa.gov/api/"
+    }
+  ],
+  "resources": [
+    {
+      "name": "metadata",
+      "title": "Station Names & Coordinates",
+      "path": "data/metadata.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "NOAA CO-OPS station id."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "NOAA CO-OPS station name."
+          },
+          {
+            "name": "lat",
+            "type": "number",
+            "description": "Latitude in decimal degrees (WGS84, EPSG:4326)."
+          },
+          {
+            "name": "lon",
+            "type": "number",
+            "description": "Longitude in decimal degrees (WGS84, EPSG:4326)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "hourly_height-9454460",
+      "title": "Verified Hourly Height Water Level (Columbia Glacier)",
+      "path": "data/hourly_height-9454460.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Water level (m) relative to Mean Lower Low Water (MLLW)."
+          },
+          {
+            "name": "s",
+            "type": "number",
+            "description": "Unknown."
+          }
+        ]
+      }
+    },
+    {
+      "name": "hourly_height-9454240",
+      "title": "Water Level: Verified Hourly Height (Valdez)",
+      "path": "data/hourly_height-9454240.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Water level (m) relative to Mean Lower Low Water (MLLW)."
+          },
+          {
+            "name": "s",
+            "type": "number",
+            "description": "Unknown."
+          }
+        ]
+      }
+    },
+    {
+      "name": "water_temperature-9454240",
+      "title": "Water Temperature: Hourly (Valdez)",
+      "path": "data/water_temperature-9454240.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Water temperature (°C)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "water_temperature-9454050",
+      "title": "Water Temperature: Hourly (Cordova)",
+      "path": "data/water_temperature-9454050.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Water temperature (°C)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "water_conductivity-9454050",
+      "title": "Water Conductivity: Hourly (Cordova)",
+      "path": "data/water_conductivity-9454050.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Water conductivity (S/m)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "air_temperature-9454240",
+      "title": "Air Temperature: Hourly (Valdez)",
+      "path": "data/air_temperature-9454240.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Air temperature (°C)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "air_temperature-9454050",
+      "title": "Air Temperature: Hourly (Cordova)",
+      "path": "data/air_temperature-9454050.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "v",
+            "type": "number",
+            "description": "Air temperature (°C)."
+          }
+        ]
+      }
+    }
+  ]
+}
