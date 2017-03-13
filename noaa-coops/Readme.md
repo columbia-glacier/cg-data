@@ -22,3 +22,7 @@ The data includes water level and meteorological observations from nearby NOAA C
 ### Sources
 
 [CO-OPS API For Data Retrieval](https://tidesandcurrents.noaa.gov/api/)
+
+## To Do
+
+- Merge variables sharing same timestamps and station id (e.g. all hourly data).
