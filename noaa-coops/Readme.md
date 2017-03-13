@@ -6,7 +6,7 @@ Preview this [Data Package](http://specs.frictionlessdata.io/data-packages/) usi
 
 ### Description
 
-The data includes water level and meteorological observations from nearby NOAA CO-OPS stations:
+The data includes water level and meteorological observations from nearby NOAA CO-OPS stations ([map](http://tidesandcurrents.noaa.gov/map/index.shtml?lat=60.82951910015283&lng=-147.1247863769531&zoom=9&type=VerifiedData)):
 
 - [9454460](https://tidesandcurrents.noaa.gov/inventory.html?id=9454460) Columbia Glacier, AK
   - Water level
