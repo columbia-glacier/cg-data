@@ -2,7 +2,7 @@
 
 Preview this [Data Package](http://specs.frictionlessdata.io/data-packages/) using the [Data Package Viewer](http://data.okfn.org/tools/view?url=https://raw.githubusercontent.com/ezwelty/cg-data/master/optical-surveys-2008).
 
-## TODO
+## To Do
 
 Only raw files `*160608*` and `*190608*` include times. Only the coordinates from these files are included, as reduced local coordinates.
 Were the absolute positions of the gun and reference target ever surveyed?
