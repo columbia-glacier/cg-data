@@ -164,17 +164,32 @@ coops_clean <- function(x, product) {
 
 #' Get NOAA CO-OPS Station Data
 #' 
-#' Downloads all available data for the specified station and products and writes them to files.
+#' Download all available data for the specified station and products and write them to a file.
 #' 
 #' @param station Station id.
 #' @param products Data product types (see \url{https://tidesandcurrents.noaa.gov/api/#products}).
-get_coops_data <- function(station, products, output_dir = "data") {
+#' @param output_dir Directory path for output files.
+#' @param merge_by_time Whether to merge products with date time fields into a single table.
+#' @param ... Arguments passed to \link{\code{batch_coops_search}}
+get_coops_data <- function(station, products, output_dir = "data", merge_by_time = TRUE, ...) {
   inventory <- coops_inventory(station)
   ind <- inventory$product %in% products
-  raw_data <- batch_coops_search(station, inventory$begin[ind], inventory$end[ind], inventory$product[ind], interval = "h", datum = "MLLW")
+  raw_data <- batch_coops_search(station, inventory$begin[ind], inventory$end[ind], inventory$product[ind], ...)
   clean_data <- mapply(FUN = coops_clean, raw_data, names(raw_data))
+  station_name <- tolower(gsub(" ", "-", raw_data$metadata$name))
+  if (merge_by_time) {
+    has_time <- sapply(clean_data, function(x) { "t" %in% names(x) })
+    unique_times <- sort(unique(unlist(sapply(clean_data[has_time], "[[", "t"))))
+    merged_data <- data.frame(t = unique_times, stringsAsFactors = FALSE)
+    for (i in which(has_time)) {
+      merged_data <- merge(merged_data, clean_data[[i]][, c("t", "v")], by = "t", all = TRUE)
+      colnames(merged_data)[ncol(merged_data)] <- names(clean_data)[i]
+    }
+    clean_data <- clean_data[!has_time]
+    write.csv(merged_data, file.path(output_dir, paste0(station_name, ".csv")), row.names = FALSE, quote = FALSE, na = "")
+  }
   for (product in names(clean_data)) {
-    write.csv(clean_data[[product]], file.path(output_dir, paste0(product, "-", station, ".csv")), row.names = FALSE, quote = FALSE, na = "")  
+    write.csv(clean_data[[product]], file.path(output_dir, paste0(station_name, "-", product, ".csv")), row.names = FALSE, quote = FALSE, na = "")  
   }
   return(clean_data)
 }
@@ -182,21 +197,21 @@ get_coops_data <- function(station, products, output_dir = "data") {
 # ---- 9454460 Columbia Glacier, AK ----
 # https://tidesandcurrents.noaa.gov/inventory.html?id=9454460
 
-columbia <- get_coops_data(9454460, c("hourly_height"))
+columbia <- get_coops_data(9454460, c("hourly_height"), interval = "h", datum = "MLLW")
 
 # ---- 9454240 Valdez, AK ----
 # https://tidesandcurrents.noaa.gov/inventory.html?id=9454240
 
-valdez <- get_coops_data(9454240, c("hourly_height", "water_temperature", "air_temperature"))
+valdez <- get_coops_data(9454240, c("hourly_height", "water_temperature", "air_temperature"), interval = "h", datum = "MLLW")
 
 # ---- 9454050 Cordova, AK ----
 # https://tidesandcurrents.noaa.gov/inventory.html?id=9454050
 
-cordova <- get_coops_data(9454050, c("conductivity"))
+cordova <- get_coops_data(9454050, c("water_temperature", "air_temperature", "conductivity"), interval = "h", datum = "MLLW")
 
 # ---- Merge metadata files ----
 
 metadata_files <- list.files("data", "metadata", full.names = TRUE)
 metadata <- data.table::rbindlist(lapply(metadata_files, read.csv))
-write.csv(metadata, file.path("data", "metadata.csv"), quote = FALSE, na = "", row.names = FALSE)
+write.csv(metadata, file.path("data", "stations.csv"), quote = FALSE, na = "", row.names = FALSE)
 file.remove(metadata_files)
