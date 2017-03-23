@@ -1,0 +1,10 @@
+cwms_ts_id,db_office_id,location_id,parameter_id,ts_code,unit_id
+COL.Temp-AIR1.Inst.15Minutes.0.DCP-raw,NAE,COL,Temp-AIR1,15108021,C
+COL.Temp-AIR2.Inst.15Minutes.0.DCP-raw,NAE,COL,Temp-AIR2,15109021,C
+COL.%-RELHUM.Inst.15Minutes.0.DCP-raw,NAE,COL,%-RELHUM,15110021,%
+COL.Speed-WIND1.Inst.15Minutes.0.DCP-raw,NAE,COL,Speed-WIND1,15111021,kph
+COL.Dir-WIND1.Inst.15Minutes.0.DCP-raw,NAE,COL,Dir-WIND1,15112021,deg
+COL.Speed-WIND2.Inst.15Minutes.0.DCP-raw,NAE,COL,Speed-WIND2,15113021,kph
+COL.Dir-WIND2.Inst.15Minutes.0.DCP-raw,NAE,COL,Dir-WIND2,15114021,deg
+COL.Pres.Inst.15Minutes.0.DCP-raw,NAE,COL,Pres,15115021,kPa
+COL.Volt.Inst.15Minutes.0.DCP-raw,NAE,COL,Volt,15116021,volt

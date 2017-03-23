@@ -1,0 +1,2 @@
+active_flag,db_office_id,elevation,latitude,location_id,location_type,long_name,longitude,state_initial,time_zone_name,unit_id,unit_system
+T,NAE,,61.2225,COL,Climate Station,Columbia Glacier,-146.833888888889,AK,America/Anchorage,m,SI
