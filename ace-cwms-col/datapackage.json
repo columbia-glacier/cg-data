@@ -93,7 +93,7 @@
             "type": "string",
             "description": "System of units ('SI': International System of Units, 'EN': English units).",
             "constraints": {
-              "enum": ["SI", "EN"],
+              "enum": ["SI", "EN"]
             }
           },
           {
@@ -113,7 +113,7 @@
           {
             "name": "cwms_ts_id",
             "type": "string",
-            "description": "CWMS timeseries identifier.",
+            "description": "CWMS timeseries identifier."
           },
           {
             "name": "db_office_id",
