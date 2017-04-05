@@ -159,6 +159,7 @@ gun_nad27 <- c(497099.142, 6776027.292, 141.354)
 # base_nad27 <- c(497524.325, 6776188.004, 265.306)
 
 xy <- data.frame(x = gun_latlng[1], y = gun_latlng[2])
+xy <- data.frame(x = -147.04345667, y = 61.11993000)
 sp::coordinates(xy) <- c("x", "y")
 sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
 sp::spTransform(xy, sp::CRS("+proj=utm +zone=6"))
@@ -173,7 +174,7 @@ temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5
 print(temp@coords, digits = 12)
 
 
-theta <- atan((ref[1] - gun[1]) / (ref[2] - gun[2]));
+  theta <- atan((ref[1] - gun[1]) / (ref[2] - gun[2]));
 R <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), nrow = 2, byrow = TRUE)
 
 

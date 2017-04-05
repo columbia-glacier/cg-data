@@ -1,6 +1,6 @@
 # ---- Install missing dependencies ----
 
-packages <- c("readxl")
+packages <- c("readxl", "sp")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))
 }
@@ -45,6 +45,32 @@ names(df) <- c("day", "x", "y", "z")
 # ---- Format time field ----
 
 df$t <- julian_day_to_datetime(df$day)
+
+# ---- Convert local to world coordinates ----
+
+# gun: "theodolite" in 2009 GPS survey (GPS/2009/May09/coords09_v2.csv)
+# Determined from from cameras AK03 and AK03b
+gun <- c(-(147 + 3 / 60 + 21.55927 / 3600), 61 + 7 / 60 + 12.59914 / 3600, 145.654)
+gun_utm <- c(lnglat_to_utm(gun[1:2]), gun[3])
+# ref(erence): "CCFG004"
+# GPS/2009/May09/coords09_v2.csv
+ref <- c(-(147 + (3 / 60) + 22.57151 / 3600), 61 + 7 / 60 + 12.04316 / 3600, 145.392)
+ref_utm <- c(lnglat_to_utm(ref[1:2]), ref[3])
+
+
+# "Assuming the theodolite was at "theodolite", and noting that the reference has to have been ~23 m SW of the theodolite (given the survey sightings), I'm wondering if it wasn't "CCFG004". Map with 23 m circle shown below." (Ethan)
+# CCFG004, BIPOD2, BIPOD3
+
+
+
+# % Transform data
+# % NOTE: Results differ from Shad O'Neel, who (incorrectly?) rotated local vectors relative to (5000, 5000) origin.
+# data = readtable('data/markers.local.csv');
+# utm = fliplr((R * [data.y, data.x]')') + gun;
+# data.x = utm(:, 1);
+# data.y = utm(:, 2);
+# writetable(data, 'data/markers.utm.csv');
+
 
 # ---- Write result ----
 
