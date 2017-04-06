@@ -1,9 +1,36 @@
-# http://web.archive.org/web/20130905025856/http://surveying.wb.psu.edu/sur351/DatumTrans/datum_transformations.htm
+# ---- Install missing dependencies ----
 
-# Install missing dependencies
-packages <- c("readxl")
+packages <- c("readxl", "sp")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))
+}
+
+# ---- Load functions ----
+
+#' Convert 2005 Julian Day to Date Time
+#' 
+#' Conversion from julian day to date time checked against sources/data_reduction/surveys_reduced_6_05.xls. These are believed to be in local time (ADT, UTC-8): The times of large calving events (sources/coord_trans/big_calves_lines.txt, sources/coord_trans/biggest_events.txt) – plotted unaltered in sources/coord_trans/marker_tracklines.m – match those in the original calving observations (CG05_calving_obs.xls), which are in local time.
+#' 
+#' @param julian_day Julian day of 2005 in local time (ADT, UTC-8).
+#' @return ISO 8601 date time in UTC.
+#' @examples
+#' julian_day_to_datetime(153.9652778) == "2005-06-03T07:10:00Z"
+julian_day_to_datetime <- function(julian_day) {
+  utc_offset <- -8 * (60 * 60)
+  origin <- strptime("2004-12-31 00:00:00", "%Y-%m-%d %H:%M:%S", tz = "UTC")
+  datetime <- format(as.POSIXlt(julian_day * (60 * 60 * 24) - utc_offset, tz = "UTC", origin = origin), "%Y-%m-%dT%H:%M:%SZ")
+  return(datetime)
+}
+
+#' Convert WGS84 Lng, Lat to UTM (Alaska, Zone 6N)
+#' 
+#' @param lnglat WGS84 geographic coordinates.
+#' @return WGS84 Zone 6N UTM coordinates.
+lnglat_to_utm <- function(lnglat) {
+  lnglat <- as.data.frame(if (is.vector(lnglat)) t(lnglat) else lnglat)[, 1:2]
+  sp::coordinates(lnglat) <- names(lnglat)
+  sp::proj4string(lnglat) <- sp::CRS("+proj=longlat +datum=WGS84")
+  return(sp::spTransform(lnglat, sp::CRS("+proj=utm +zone=6"))@coords)
 }
 
 # ---- Markers 1, 3, 4 (June 2005) ----
@@ -18,7 +45,7 @@ filenames <- c(
 results <- lapply(filenames, function(filename) {
   df <- read.table(filename)
   # Assign columns (sources/coord_trans/survey_coord_trans.m)
-  names(df) <- c("id", "day", "x", "y", "z")
+  names(df) <- c("marker", "t", "x", "y", "z")
   return(df)
 })
 
@@ -28,7 +55,7 @@ filename <- "sources/data_reduction/surveys_reduced_6_05.xls"
 temp <- readxl::read_excel(filename, sheet = "Sheet1", skip = 7)
 names(temp) <- make.names(names(temp), unique = TRUE)
 df <- temp[!is.na(temp$Marker) & temp$Marker == 222, c("Marker", "Tavg.1", "Ereduced", "Nreduced", "Z")]
-names(df) <- c("id", "day", "x", "y", "z")
+names(df) <- c("marker", "t", "x", "y", "z")
 results <- c(results, list(df))
 
 # ---- Marker 5 (September 2005) ----
@@ -37,7 +64,7 @@ filename <- "sources/CG_2005SurveyData_Shad/SeptSurveyMatlabIn.xls"
 temp <- readxl::read_excel(filename, sheet = "ExportMatlab")
 df <- temp[, c("Tavg", "Ereduced", "Nreduced", "Z")]
 df <- cbind(555, df)
-names(df) <- c("id", "day", "x", "y", "z")
+names(df) <- c("marker", "t", "x", "y", "z")
 results <- c(results, list(df))
 
 # ---- Merge results ----
@@ -47,158 +74,37 @@ df <- do.call("rbind", results)
 # ---- Simplify marker identifers ----
 
 # Use single digit integer
-df$id <- floor(df$id / 100)
+df$marker <- floor(df$marker / 100)
 
 # ---- Convert decimal day to datetime ----
 
-# Convert day to date time (matches sources/data_reduction/surveys_reduced_6_05.xls)
-origin <- strptime("2004-12-31 00:00:00", "%Y-%m-%d %H:%M:%S", tz = "UTC")
-df$t <- format(as.POSIXlt(df$day * (60 * 60 * 24), tz = "UTC", origin = origin), "%Y-%m-%d %H:%M:%S")
+# Convert local julian day to UTC datetime
+df$t <- julian_day_to_datetime(df$t)
 
-# Calving events
-# sources/coord_trans/marker_tracklines.m => sources/coord_trans/big_calves_lines.txt
-days <- unique(read.table("sources/coord_trans/big_calves_lines.txt")[, 1])
-origin <- strptime("2004-12-31 00:00:00", "%Y-%m-%d %H:%M:%S", tz = "UTC")
-format(as.POSIXlt(days * (60 * 60 * 24), tz = "UTC", origin = origin), "%Y-%m-%d %H:%M:%S")
-# sources/coord_trans/biggest_events.txt
-events <- read.table("sources/coord_trans/biggest_events.txt")
-events$time <- format(as.POSIXlt(events$V4 * (60 * 60 * 24), tz = "UTC", origin = origin), "%Y-%m-%d %H:%M:%S")
-# times are in ADT (UTC-8) if calving catalog (Astrom et al.) is in UTC!
-
-# ---- Convert local to world coordinates ----
-
-# Terminus
-# CONCLUSION: NAD27
-# Terminus (sources/coord_trans/terminus_178_04.txt) used (sources/coord_trans/marker_tracklines.m) may be average of two 2004 terminus positions, given date suggested by filename:
-origin <- strptime("2003-12-31 00:00:00", "%Y-%m-%d %H:%M:%S", tz = "UTC")
-format(as.POSIXlt(178 * (60 * 60 * 24), tz = "UTC", origin = origin), "%Y-%m-%d %H:%M:%S")
-mean(c(as.Date('2004-06-18'), as.Date('2004-07-07')))
-# Best matches those terminus traces if converted to NAD27
-term <- rgdal::readOGR(dsn = path.expand("~/desktop/terminus"), layer = "terminus")
-term <- sp::spTransform(term, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
-ind <- term@data$DATE == 20040618 | term@data$DATE == 20040707
-plot(term[ind, ])
-term <- read.table("sources/coord_trans/terminus_178_04.txt")
-lines(term, col = 'red')
+# ---- Convert local to world coordinates (xy) ----
 
 # Gun local coordinates (sources/data_reduction/surveys_reduced_6_05.xls)
 gun_local <- c(5000, 5000, 1000)
-# Gun and reference coordinates (sources/coord_trans/survey_coord_trans.m)
-gun <- c(497126.859, 6775852.739, 0) # -147.0554716 61.11859955 : GPS/2005/ROVER/03011570.dat, (03011610.dat)
-ref <- c(497126.388, 6775984.429, 0) # -147.0554824 61.11978182 : GPS/2005/ROVER/03011571.dat
-
-xy <- data.frame(x = gun[1], y = gun[2])
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
-sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-
-xy <- data.frame(x = ref[1], y = ref[2])
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
-sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-
-xy <- data.frame(x = gun[1], y = gun[2])
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
-sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-
-xy <- data.frame(x = ref[1], y = ref[2])
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
-sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-
-# BASE (GPS/2004/coords_out_sept13.xls)
-base_lat <- 61 + 7 / 60 + 17.80430 / 3600
-base_lng <- -(147 + 2 / 60 + 53.15913 / 3600)
-base_h <- 269.467
-xy <- data.frame(x = base_lng, y = base_lat)
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-print(temp@coords, digits = 10)
-
-# BBB ()
-lat <- 61 + 7 / 60 + 14.07942 / 3600
-lng <- -(147 + 3 / 60 + 2.75583 / 3600)
-xy <- data.frame(x = lng, y = lat)
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-print(temp@coords, digits = 10)
-
-# 03011570.dat
-xy <- data.frame(x = -147.055482, y = 61.118632)
-# 03011571.dat
-xy <- data.frame(x = -147.055510, y = 61.119802)
-# 03011610.dat
-xy <- data.frame(x = -147.055470, y = 61.118565)
-
-xy <- data.frame(x = gun[1], y = gun[2])
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs")
-sp::proj4string(xy) <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
-
-temp <- sp::spTransform(xy, sp::CRS("+proj=longlat +datum=WGS84"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=WGS84"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=NAD83"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +datum=NAD27"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=GRS80 +towgs84=0,0,0 +units=m +no_defs"))
-print(temp@coords, digits = 10)
-
-# GPS/2009/May09/coords09_v2.CSV
-base_latlng <- c(-(147 + 2 / 60 + 53.15913 / 3600), 61 + 7 / 60 + 17.80430 / 3600, 269.598)
-base_nad27 <- c(497524.325, 6776188.004, 265.306)
-gun_latlng <- c(-(147 + 3 / 60 + 21.55927 / 3600), 61 + 7 / 60 + 12.59914 / 3600, 145.654)
-gun_nad27 <- c(497099.142, 6776027.292, 141.354)
-# GPS/2009/CG09/Reports/recompute/recompute.html
-# (base same above, for gun UTM and latlng don't quite match up)
-# gun_latlng <- c(-147.056022649, 61.120154123, 141.742)
-# gun_nad27 <- c(497099.142, 6776027.292, 141.354)
-# base_latlng <- c(-147.048099758, 61.121612306, 269.598)
-# base_nad27 <- c(497524.325, 6776188.004, 265.306)
-
-xy <- data.frame(x = gun_latlng[1], y = gun_latlng[2])
-xy <- data.frame(x = -147.04345667, y = 61.11993000)
-sp::coordinates(xy) <- c("x", "y")
-sp::proj4string(xy) <- sp::CRS("+proj=longlat +datum=WGS84")
-sp::spTransform(xy, sp::CRS("+proj=utm +zone=6"))
-# sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +datum=NAD27"))
-sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
-
-
-
-# sp::spTransform(xy, sp::CRS("+proj=utm +zone=6"))
-# sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +datum=NAD27"))
-temp <- sp::spTransform(xy, sp::CRS("+proj=utm +zone=6 +ellps=clrk66 +towgs84=-5,135,172 +units=m +no_defs"))
-print(temp@coords, digits = 12)
-
-
-  theta <- atan((ref[1] - gun[1]) / (ref[2] - gun[2]));
+# Gun and reference coordinates (GPS/2005/2005_GPS_coords.xls and GPS/2005/coords.CSV as WGS84 Lng, Lat, HAE)
+# NOTE: These match sources/coord_trans/survey_coord_trans.m (as NAD27 UTM)
+gun <- c(-(147 + 3 / 60 + 19.69752 / 3600), 61 + 7 / 60 + 6.95838 / 3600, 154.432)
+gun[1:2] <- lnglat_to_utm(gun[1:2])
+ref <- c(-(147 + 3 / 60 + 19.73640 / 3600), 61 + 7 / 60 + 11.21458 / 3600, 162.526)
+ref[1:2] <- lnglat_to_utm(ref[1:2])
+# Local coordinates relative to gun
+# NOTE: Results differ from original (sources/coord_trans/survey_coord_trans.m), where coordinates were rotated without first substracting origin (5000, 5000) as done here.
+dxy <- sweep(as.matrix(df[c("x", "y")]), 2, gun_local[1:2], FUN = "-")
+# Align with UTM axes
+theta <- atan((ref[1] - gun[1]) / (ref[2] - gun[2]))
 R <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), nrow = 2, byrow = TRUE)
+xy <- sweep(dxy %*% R, 2, gun[1:2], FUN = "+")
+# Save result
+df[c("x", "y")] <- xy
 
+# ---- Convert local to world coordinates (z) ----
 
-# %% Convert local to WGS84 UTM coordinates
-#
-# % Gun and reference coordinates (NAD27?)
+df$z <- gun[3] - (gun_local[3] - df$z)
 
+# ---- Save results ----
 
-#
-# % Transform data
-# % NOTE: Results differ from Shad O'Neel, who (incorrectly?) rotated local vectors relative to (5000, 5000) origin.
-# data = readtable('data/markers.local.csv');
-# utm = fliplr((R * [data.y, data.x]')') + gun;
-# data.x = utm(:, 1);
-# data.y = utm(:, 2);
-# writetable(data, 'data/markers.utm.csv');
-#
-# %% Plot data
-# data = readtable('data/markers.utm.csv');
-# [Z, ~, bbox] = geotiffread('/Volumes/Science/data/columbia/_new/ArcticDEM/tiles/merged_projected_clipped.tif');
-# dem = DEM(Z, bbox(:, 1), flip(bbox(:, 2)));
-# figure
-# dem.plot(2); hold on
-# for i = unique(data.id)'
-# ind = data.id == i;
-# plot(data.x(ind), data.y(ind), '.')
-# end
+write.csv(df, "data/markers.csv", na = "", quote = FALSE, row.names = FALSE)

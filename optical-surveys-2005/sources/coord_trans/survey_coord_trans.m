@@ -68,6 +68,18 @@ for i = 1:n_1
 
 end
 
+gun = [Ge Gn];
+
+utm = fliplr((Rotmat * [yloc_1, xloc_1]')') - 5000 + gun;
+
+R = [Rotmat(2, 2) Rotmat(1, 2); Rotmat(2, 1) Rotmat(1, 1)];
+R = [ cos(dela) sin(dela); -sin(dela) cos(dela)]
+utm = [xloc_1, yloc_1] * Rotmat - 5000 + gun;
+
+utm = ([xloc_1, yloc_1] * Rotmat * ')' - 5000 + gun;
+
+[Eutm(1) Nutm(1)] == utm(1, :)
+
 %Reduce UTM coords to local numbers by
 
 y_111 = Nutm;% - 6770000.0;
