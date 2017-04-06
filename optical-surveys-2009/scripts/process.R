@@ -24,16 +24,13 @@ julian_day_to_datetime <- function(julian_day) {
 
 #' Convert WGS84 Lng, Lat to UTM (Alaska, Zone 6N)
 #' 
-#' @param xy NAD27 Zone 6N UTM coordinates.
+#' @param lnglat WGS84 geographic coordinates.
 #' @return WGS84 Zone 6N UTM coordinates.
 lnglat_to_utm <- function(lnglat) {
-  current_proj4 <- sp::CRS("+proj=longlat +datum=WGS84")
-  target_proj4 <- sp::CRS("+proj=utm +zone=6 +datum=WGS84")
-  lnglat <- if (is.vector(lnglat)) t(lnglat) else lnglat
-  xy <- data.frame(x = lnglat[, 1], y = lnglat[, 2])
-  sp::coordinates(xy) <- c("x", "y")
-  sp::proj4string(xy) <- current_proj4
-  return(sp::spTransform(xy, target_proj4)@coords)
+  lnglat <- as.data.frame(if (is.vector(lnglat)) t(lnglat) else lnglat)[, 1:2]
+  sp::coordinates(lnglat) <- names(lnglat)
+  sp::proj4string(lnglat) <- sp::CRS("+proj=longlat +datum=WGS84")
+  return(sp::spTransform(lnglat, sp::CRS("+proj=utm +zone=6"))@coords)
 }
 
 # ---- Read source data ----
