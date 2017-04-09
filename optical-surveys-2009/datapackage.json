@@ -1,7 +1,7 @@
 {
   "name": "optical-surveys-2009",
   "title": "Optical Surveys (2009)",
-  "description": "Preliminary trajectory of an Ohio State University GPS receiver on the glacier main branch tracked by optical survey. Coordinates are local and arbitrary.",
+  "description": "Positions of an Ohio State University GPS receiver on the glacier main branch measured by a robotic survey theodolite.",
   "version": "0.1.0",
   "contributors": [
     {
@@ -23,28 +23,29 @@
   "resources": [
     {
       "name": "positions",
-      "path": "data/positions.csv",
+      "path": "data/markers.csv",
       "schema": {
         "fields": [
           {
             "name": "t",
             "type": "datetime",
-            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
           },
           {
             "name": "x",
             "type": "number",
-            "description": "Meters along an arbitrary x-axis (theodolite: 5000 m)."
+            "description": "Easting (m) in WGS84 UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "y",
             "type": "number",
-            "description": "Meters along an arbitrary y-axis (theodolite: 5000 m)."
+            "description": "Northing (m) in WGS84 UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "z",
             "type": "number",
-            "description": "Elevation (m) relative to an abitrary height (theodolite: 1000 m)."
+            "description": "Height (m) above the WGS84 ellipsoid."
           }
         ]
       }

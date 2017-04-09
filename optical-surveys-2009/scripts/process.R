@@ -37,38 +37,51 @@ lnglat_to_utm <- function(lnglat) {
 
 filename <- "sources/CGSurvey_DataSummary.xls"
 df <- readxl::read_excel(filename, sheet = "Sheet1", skip = 5)[, 1:4]
-names(df) <- c("day", "x", "y", "z")
+names(df) <- c("t", "x", "y", "z")
 
 # ---- Format time field ----
 
-df$t <- julian_day_to_datetime(df$day)
+df$t <- julian_day_to_datetime(df$t)
 
 # ---- Convert local to world coordinates ----
 
-# gun: "theodolite" in 2009 GPS survey (GPS/2009/May09/coords09_v2.csv)
-# Determined from from cameras AK03 and AK03b
+# Gun local coordinates (sources/CGSurveyMay2009.xlsx)
+gun_local <- c(5000, 5000, 1000)
+# Gun world coordinates ("theodolite" in GPS/2009/May09/coords09_v2.csv as WGS84 Lng, Lat, HAE)
+# NOTE: Confirmed by marking "0809 Gun" in sources/AK03b.JPG and the gun in sources/AK03b_20090507_202214.JPG.
 gun <- c(-(147 + 3 / 60 + 21.55927 / 3600), 61 + 7 / 60 + 12.59914 / 3600, 145.654)
-gun_utm <- c(lnglat_to_utm(gun[1:2]), gun[3])
-# ref(erence): "CCFG004"
-# GPS/2009/May09/coords09_v2.csv
+gun[1:2] <- lnglat_to_utm(gun[1:2])
+# Reference world coordinates ("CCFG004" in GPS/2009/May09/coords09_v2.csv as WGS84 Lng, Lat, HAE)
+# NOTE: Educated guess based on distance and angle readings. Possibly supported by disturbance at CCFG004 (see marking "CCFG004" in sources/AK03.JPG) between sources/AK03_20080617_011901.JPG and sources/AK03_20080617_021901.JPG.
+# CCFG004
 ref <- c(-(147 + (3 / 60) + 22.57151 / 3600), 61 + 7 / 60 + 12.04316 / 3600, 145.392)
-ref_utm <- c(lnglat_to_utm(ref[1:2]), ref[3])
+ref[1:2] <- lnglat_to_utm(ref[1:2])
+# Local coordinates relative to gun
+dxy <- sweep(as.matrix(df[c("x", "y")]), 2, gun_local[1:2], FUN = "-")
+# Align with UTM axes
+# NOTE: Need rotation counterclockwise relative to +y. Adjustment (pi/2) needed since atan2 relative to +x.
+theta <- atan2(ref[2] - gun[2], (ref[1] - gun[1])) - pi / 2
+R <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), nrow = 2, byrow = TRUE)
+xy <- sweep(dxy %*% R, 2, gun[1:2], FUN = "+")
+# Save result
+df[c("x", "y")] <- xy
 
+# # Reference world coordinates
+# warning("Unknown reference, skipping coordinate rotation.")
+# # Shift coordinates relative to gun
+# dxyz <- gun - gun_local
+# xyz <- sweep(as.matrix(df[c("x", "y", "z")]), 2, dxyz, FUN = "+")
+# # Save result
+# df[c("x", "y", "z")] <- xyz
 
-# "Assuming the theodolite was at "theodolite", and noting that the reference has to have been ~23 m SW of the theodolite (given the survey sightings), I'm wondering if it wasn't "CCFG004". Map with 23 m circle shown below." (Ethan)
-# CCFG004, BIPOD2, BIPOD3
+# ---- Plot results ----
 
-
-
-# % Transform data
-# % NOTE: Results differ from Shad O'Neel, who (incorrectly?) rotated local vectors relative to (5000, 5000) origin.
-# data = readtable('data/markers.local.csv');
-# utm = fliplr((R * [data.y, data.x]')') + gun;
-# data.x = utm(:, 1);
-# data.y = utm(:, 2);
-# writetable(data, 'data/markers.utm.csv');
-
+plot(df[c("x", "y")], xlim = range(c(df$x, gun[1])), ylim = range(c(df$y, gun[2])), asp = 1)
+points(gun[1], gun[2], col = "red")
+term <- rgdal::readOGR("/users/admin/desktop/temp/terminus", "terminus")
+ind <- grepl("^2009", term@data$DATE)
+sp::plot(term[ind, ], add = TRUE)
 
 # ---- Write result ----
 
-write.csv(df[, c("t", "x", "y", "z")], "data/positions.csv", row.names = FALSE, quote = FALSE, na = "")
+write.csv(df[, c("t", "x", "y", "z")], "data/markers.csv", row.names = FALSE, quote = FALSE, na = "")
