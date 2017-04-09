@@ -27,22 +27,23 @@
           {
             "name": "marker",
             "type": "integer",
-            "description": "Grouping variable (marker #)."
+            "description": "Marker identifier."
           },
           {
             "name": "t",
             "type": "datetime",
-            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
           },
           {
             "name": "x",
             "type": "number",
-            "description": "Easting (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+            "description": "Easting (m) in WGS84 UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "y",
             "type": "number",
-            "description": "Northing (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+            "description": "Northing (m) in WGS84 UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "z_G",
@@ -61,28 +62,29 @@
       "name": "marker-11",
       "title": "High-frequency Marker 11 Trajectory",
       "description": "High-frequency trajectory for marker 11 triangulated from electronic distance meter measurements on Heather Island and the trajectory computed from angle sightings.",
-      "path": "data/marker11.csv",
+      "path": "data/marker-11.csv",
       "schema": {
         "fields": [
           {
             "name": "marker",
             "type": "integer",
-            "description": "Grouping variable (marker #)."
+            "description": "Marker identifier."
           },
           {
             "name": "t",
             "type": "datetime",
-            "description": "ISO 8601 date and time in UTC (YYYY-MM-DD'T'hh:mm:ss'Z')."
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
           },
           {
             "name": "x",
             "type": "number",
-            "description": "Easting (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+            "description": "Easting (m) in WGS84 UTM Zone 6N (EPSG:32606)."
           },
           {
             "name": "y",
             "type": "number",
-            "description": "Northing (m) in WGS84 / UTM Zone 6N (EPSG:32606)."
+            "description": "Northing (m) in WGS84 UTM Zone 6N (EPSG:32606)."
           }
         ]
       }

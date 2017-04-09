@@ -521,4 +521,4 @@ mdf$marker <- 11
 
 ## Save results
 
-write.csv(mdf[, c("marker", "t", "x", "y")], "data/marker11.csv", row.names = FALSE, quote = FALSE, na = "")
+write.csv(mdf[, c("marker", "t", "x", "y")], "data/marker-11.csv", row.names = FALSE, quote = FALSE, na = "")
