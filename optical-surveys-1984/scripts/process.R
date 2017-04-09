@@ -8,11 +8,11 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 # ---- Load functions ----
 
 #' Convert UTM to Local coordinates
-#' 
+#'
 #' Equation 1 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
 #' x = (UTM Easting - 490000) / 0.9996
 #' y = (UTM Northing - 6750000) / 0.9996
-#' 
+#'
 #' @param xy UTM coordinates (NAD27 Zone 6N - Robert Krimmel, email: 2014-02-24; L.A. Rasmussen, email: 2014-02-24).
 #' @return Local coordinates.
 eq1_utm_to_local <- function(xy) {
@@ -23,7 +23,7 @@ eq1_utm_to_local <- function(xy) {
 
 #' Convert Local to UTM Coordinates
 #'
-#' Reverse of Equation 1 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}): 
+#' Reverse of Equation 1 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
 #' UTM Easting = (x * 0.9996) + 490000
 #' UTM Northing = (y * 0.9996) + 6750000
 #'
@@ -36,11 +36,11 @@ eq1_local_to_utm <- function(xy) {
 }
 
 #' Align Azimuth Angle to UTM Grid
-#' 
+#'
 #' Equation 2 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
 #' theta_G = 8.285744 - (pi / 200) * theta_hat_G
 #' theta_Q = 5.005084 - (pi / 200) * theta_hat_Q
-#' 
+#'
 #' @param theta_hat Azimuth angle in grads to the right of Easy.
 #' @param station Name of the survey station: either "New Gilbert" / "G" or "New Quickie" / "Q".
 #' @return Radians counterclockwise from the UTM +x axis (east).
@@ -58,13 +58,13 @@ eq2_theta_hat_to_theta <- function(theta_hat, station) {
 }
 
 #' Triangulate Marker Positions
-#' 
+#'
 #' Equation 4 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
 #' x_T = (1 / (tan(theta_Q) - tan(theta_G))) * ((y_G - tan(theta_G) * x_G) - (y_Q - tan(theta_Q) * x_Q))
 #' y_T = (1 / (tan(theta_Q) - tan(theta_G))) * (tan(theta_Q) * (y_G - tan(theta_G) * x_G) - tan(theta_G) * (y_Q - tan(theta_Q) * x_Q))
 #'
 #' Finds the intersection of sighting lines from New Gilbert and New Quickie (survey stations), neglecting the Earth's curvature.
-#' 
+#'
 #' @param xyz_G Position of New Gilbert in local coordinates.
 #' @param theta_G Azimuth angle (radians counterclockwise from east) sightings from New Gilbert.
 #' @param xyz_Q Position of New Quickie in local coordinates.
@@ -77,15 +77,15 @@ eq4_target_xy <- function(xyz_G, theta_G, xyz_Q, theta_Q) {
 }
 
 #' Triangulate Marker Heights
-#' 
+#'
 #' Equation 5 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}):
 #' z_T = z_S + h_S + (6.8 * 10^-8 * r_S - tan(phi_S)) * r_S
 #' r_S = sqrt((x_S - x_T)^2 + (y_S - y_T)^2)
 #' where S is either Q or G.
-#' 
+#'
 #' Computes the height of the marker, accounting for refraction and Earth's curvature.
-#' 
-#' @param xy_T Horizontal marker positions in local coordinates. 
+#'
+#' @param xy_T Horizontal marker positions in local coordinates.
 #' @param xyz Survey station position in local coordinates.
 #' @param phi Elevation angle (grads below the local horizontal) sightings from survey station.
 #' @param h Height (in meters) of survey station above the ground.
@@ -96,7 +96,7 @@ eq5_target_z <- function(xy_T, xyz, phi, h) {
 }
 
 #' Intersect Line (Segment) with Ray
-#' 
+#'
 #' Generalized form of Equation 8 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}).
 #' Inspired by \url{http://paulbourke.net/geometry/pointlineplane/}.
 #'
@@ -112,7 +112,7 @@ eq8_intersect_edge_ray <- function(edge, origin, theta, edge_as_line = FALSE) {
   d1 <- as.vector(diff(edge))
   d2 <- c(cos(theta), sin(theta))
   d3 <- edge[1, ] - origin
-  # Compute times 
+  # Compute times
   denominator <- d2[2] * d1[1] - d2[1] * d1[2]
   t1 <- (d2[1] * d3[2] - d2[2] * d3[1]) / denominator
   t2 <- (d1[1] * d3[2] - d1[2] * d3[1]) / denominator
@@ -126,10 +126,10 @@ eq8_intersect_edge_ray <- function(edge, origin, theta, edge_as_line = FALSE) {
 }
 
 #' Intersect Line Segment with Circle
-#' 
+#'
 #' Generalized form of Equation 10 in Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}).
 #' Inspired by \url{http://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm}.
-#' 
+#'
 #' @param edge Endpoints of the line segment [x0 y0; x1 y1].
 #' @param center Center of the circle [x y].
 #' @param radius Radius of the circle.
@@ -149,12 +149,12 @@ eq10_intersect_edge_circle <- function(edge, center, radius) {
 }
 
 #' Convert 1984 Julian Day to UTC Date Time
-#' 
+#'
 #' Vaughn et al. 1987 (\url{https://pubs.er.usgs.gov/publication/ofr85487}), page 8:
 #' "Time is represented by the Julian day of 1984; it is 214.000 at 0000 hours local time on August 1, 1984 and increases by 1 each day thereafter."
-#' 
+#'
 #' The offset between local Alaska time and UTC was determined from \url{https://www.timeanddate.com/time/change/usa/anchorage?year=1984}.
-#' 
+#'
 #' @param julian_day Julian day of 1984 in AKDT (UTC - 8).
 #' @return ISO 8601 date time in UTC.
 #' @examples
@@ -167,9 +167,9 @@ julian_day_to_utc_datetime <- function(julian_day) {
 }
 
 #' Convert NAD27 to WGS84 UTM (Alaska, Zone 6N)
-#' 
+#'
 #' Custom transformation parameters from \url{http://web.archive.org/web/20130905025856/http://surveying.wb.psu.edu/sur351/DatumTrans/datum_transformations.htm}.
-#' 
+#'
 #' @param xy NAD27 Zone 6N UTM coordinates.
 #' @return WGS84 Zone 6N UTM coordinates.
 nad27_to_wgs84_utm <- function(xy) {
@@ -183,13 +183,13 @@ nad27_to_wgs84_utm <- function(xy) {
 
 # ---- Load common data ----
 
-table1 <- read.csv("sources/table-1.csv", stringsAsFactors = FALSE)
+table1 <- read.csv("sources/vaughn-others-1985-table-1.csv", stringsAsFactors = FALSE)
 
 # ---- Survey markers ----
 
 ## Read table
 
-appendix1 <- read.csv("sources/appendix-1.csv", stringsAsFactors = FALSE)
+appendix1 <- read.csv("sources/vaughn-others-1985-appendix-1.csv", stringsAsFactors = FALSE)
 
 ## Pre-process table
 
@@ -249,7 +249,7 @@ for (marker in unique(appendix1$marker)) {
   if (sum(ind_G) == 0 || sum(ind_Q) == 0) {
     next
   }
-  
+
   ## Match measurements
   # Measure time seperation between measurements
   dt <- do.call(rbind, (lapply(appendix1$t[ind_G], function(t_G) {
@@ -271,7 +271,7 @@ for (marker in unique(appendix1$marker)) {
     }))
     t_nearby_ind <- as.matrix(temp[, c("row", "col")])
   }
-  
+
   ## If fewer than 4 points from either station...
   if (sum(ind_G) < 4 || sum(ind_Q) < 4) {
     # Process equal time pairs (exact)
@@ -287,10 +287,10 @@ for (marker in unique(appendix1$marker)) {
     }
     next
   }
-  
+
   ## If at least 4 points from each station...
   t_ind <- rbind(t_equal_ind, t_nearby_ind)
-  
+
   # Build models (cubic spline)
   t <- appendix1$t[ind_G]
   has_theta <- !is.na(appendix1$theta[ind_G])
@@ -304,7 +304,7 @@ for (marker in unique(appendix1$marker)) {
   has_phi <- !is.na(appendix1$phi[ind_Q])
   model_Q_phi <- smooth.spline(t[has_phi], appendix1$phi[ind_Q][has_phi], w = 1 / appendix1$K_phi[ind_Q][has_phi], spar = spar)
   model_Q_h <- smooth.spline(t, appendix1$h[ind_Q], spar = spar)
-  
+
   # Snap each point pair to time with furthest value
   # (so interpolation performed on sequence with denser samples)
   dt_G <- diff(appendix1$t[ind_G])
@@ -317,7 +317,7 @@ for (marker in unique(appendix1$marker)) {
   nearby_ind_Q <- which(ind_Q)[t_ind[, 2]]
   t <- appendix1$t[nearby_ind_G]
   t[use_Q] <- appendix1$t[nearby_ind_Q][use_Q]
-  
+
   # Evaluate models
   theta_G <- predict(model_G_theta, t)$y
   phi_G <- predict(model_G_phi, t)$y
@@ -325,7 +325,7 @@ for (marker in unique(appendix1$marker)) {
   theta_Q <- predict(model_Q_theta, t)$y
   phi_Q <- predict(model_Q_phi, t)$y
   h_Q <- predict(model_Q_h, t)$y
-  
+
   # Compute point trajectory
   xy_T <- eq4_target_xy(xyz_G, theta_G, xyz_Q, theta_Q)
   z_T_G <- as.numeric(eq5_target_z(xy_T, xyz_G, phi_G, h_G))
@@ -333,7 +333,7 @@ for (marker in unique(appendix1$marker)) {
   X <- data.frame(marker = marker, t = t, x = xy_T[, 1], y = xy_T[, 2], z_G = z_T_G, z_Q = z_T_Q)
   X <- X[order(X$t), ]
   XX <- X
-  
+
   # Intersect trajectory with single measurements
   # New Gilbert
   single_ind_G <- setdiff(which(ind_G), nearby_ind_G)
@@ -352,7 +352,7 @@ for (marker in unique(appendix1$marker)) {
       xy_T <- eq8_intersect_edge_ray(as.matrix(X[c(j, j + 1), c("x", "y")]), xyz_G[1:2], theta_G[i], edge_as_line = edge_as_line)
       if (nrow(xy_T) > 0) {
         z_T_G <- eq5_target_z(xy_T, xyz_G, phi_G[i], h_G[i])
-        X_G[i, c("x", "y", "z_G")] <- c(xy_T, z_T_G) 
+        X_G[i, c("x", "y", "z_G")] <- c(xy_T, z_T_G)
       }
     }
     XX <- rbind(X, X_G)
@@ -379,7 +379,7 @@ for (marker in unique(appendix1$marker)) {
     }
     XX <- rbind(X, X_Q)
   }
-  
+
   # Save result
   results <- c(results, list(XX[order(XX$t), ]))
 }
@@ -434,7 +434,7 @@ write.csv(mdf, "data/markers.csv", row.names = FALSE, quote = FALSE, na = "")
 
 # ---- EDM measurements ----
 
-appendix2 <- read.csv("sources/appendix-2.csv", stringsAsFactors = FALSE)
+appendix2 <- read.csv("sources/vaughn-others-1985-appendix-2.csv", stringsAsFactors = FALSE)
 
 # Convert t_hat to t (Julian day)
 # "The time shown t_hat is 200 less than the 1984 Julian Day" [pg 26]

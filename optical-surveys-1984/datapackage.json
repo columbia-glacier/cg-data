@@ -1,7 +1,7 @@
 {
   "name": "optical-surveys-1984",
   "title": "Optical Surveys (1984)",
-  "description": "Ice velocity data are presented for the lower reach of Columbia Glacier, Alaska. The data span a 29 day period and contain 1,072 angle sightings from two survey stations to 22 markers placed on the ice surface, and 1,621 laser measurements of the distance to one of those markers (number 11) from another station. (Vaughn et al., 1985, Abstract)",
+  "description": "Ice velocity data are presented for the lower reach of Columbia Glacier, Alaska. The data span a 29 day period and contain 1,072 angle sightings from two survey stations to 22 markers placed on the ice surface, and 1,621 laser measurements of the distance to one of those markers (number 11) from another station. (Vaughn et al. 1985, Abstract)",
   "version": "0.1.0",
   "contributors": [
     {
