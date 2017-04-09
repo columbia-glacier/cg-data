@@ -95,11 +95,25 @@ ref[1:2] <- lnglat_to_utm(ref[1:2])
 # NOTE: Results differ from original (sources/coord_trans/survey_coord_trans.m), where coordinates were rotated without first substracting origin (5000, 5000) as done here.
 dxy <- sweep(as.matrix(df[c("x", "y")]), 2, gun_local[1:2], FUN = "-")
 # Align with UTM axes
-theta <- atan((ref[1] - gun[1]) / (ref[2] - gun[2]))
+# NOTE: Need rotation counterclockwise relative to +y. Adjustment (pi/2) needed since atan2 relative to +x.
+theta <- atan2(ref[2] - gun[2], ref[1] - gun[1]) - pi / 2
 R <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), nrow = 2, byrow = TRUE)
 xy <- sweep(dxy %*% R, 2, gun[1:2], FUN = "+")
 # Save result
 df[c("x", "y")] <- xy
+
+# ---- Plot results ----
+
+plot(df[df$marker == 1, c("x", "y")], xlim = range(c(df$x, gun[1])), ylim = range(c(df$y, gun[2])), asp = 1)
+points(df[df$marker == 2, c("x", "y")], col = "red")
+points(df[df$marker == 3, c("x", "y")], col = "green")
+points(df[df$marker == 4, c("x", "y")], col = "yellow")
+points(df[df$marker == 5, c("x", "y")], col = "blue")
+points(gun[1], gun[2], col = "red")
+term <- read.table("sources/coord_trans/terminus_178_04.txt")
+sp::coordinates(term) <- names(term)
+sp::proj4string(term) <- sp::CRS("+proj=utm +zone=6 +datum=NAD27")
+sp::plot(sp::spTransform(term, sp::CRS("+proj=utm +zone=6 +datum=WGS84")), add = TRUE)
 
 # ---- Convert local to world coordinates (z) ----
 

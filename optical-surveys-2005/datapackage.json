@@ -1,7 +1,7 @@
 {
   "name": "optical-surveys-2005",
   "title": "Optical Surveys (2005)",
-  "description": "Four survey targets (1, 2, 3, 4) were deployed in June 2005 and one in September 2005, within one km of the calving face using a helicopter. The maximum lifetime of the markers was limited to 15 days, before each succumbed to calving. Positions of the targets were obtained using a Leica total station robotic survey theodolite at nominal time separation of 20-30 minutes.",
+  "description": "Four survey targets (1, 2, 3, 4) were deployed in June 2005 and one (5) in September 2005, within one km of the calving face using a helicopter. The maximum lifetime of the markers was limited to 15 days, before each succumbed to calving. Positions of the targets were obtained using a Leica total station robotic survey theodolite at nominal time separation of 20-30 minutes.",
   "version": "0.1.0",
   "contributors": [
     {
