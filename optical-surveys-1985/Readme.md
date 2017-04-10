@@ -27,5 +27,6 @@ Abstract
 ## To Do
 
 - Locate original data.
-- Extract ice velocities and precipitation (krimmel-vaughn-1987.pdf, Figure 7).
-- Extract ice velocities (walters-dunlaps-1987.pdf, Figure 4).
+- Use position of Heather Island EDM as weather station position (krimmel-vaughn-1987.pdf, Figure 1):
+
+> H is location of the instrument station used for velocity experiments 1984-1986.

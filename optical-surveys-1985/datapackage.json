@@ -1,0 +1,96 @@
+{
+  "name": "optical-surveys-1985",
+  "title": "Optical Surveys (1985)",
+  "description": "Velocity of three reflectors 1.3, 2.8, and 4.6 km from the terminus and meteorological observations from a station on nearby Heather Island.",
+  "version": "0.1.0",
+  "contributors": [
+    {
+      "name": "Ethan Welty",
+      "email": "ethan.welty@gmail.com",
+      "roles": "Assembled and published the datapackage."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Original data, scripts, and documentation",
+      "path": "sources/"
+    }
+  ],
+  "resources": [
+    {
+      "name": "station",
+      "title": "Station Metadata",
+      "path": "data/station.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "lat",
+            "type": "number",
+            "description": "Latitude in decimal degrees (WGS84, EPSG:4326)."
+          },
+          {
+            "name": "lng",
+            "type": "number",
+            "description": "Longitude in decimal degrees (WGS84, EPSG:4326)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "velocity",
+      "title": "Marker Velocity",
+      "path": "data/velocity.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "marker",
+            "type": "integer",
+            "description": "Marker identifier (1: 1.3 km, 2: 2.8km, and 3: 4.6 km from the terminus).",
+          },
+          {
+            "name": "sequence",
+            "type": "integer",
+            "description": "Sequence number from figure tracing. Observations are 'continuous' between times of the same sequence."
+          },
+          {
+            "name": "t",
+            "type": "datetime",
+            "description": "Date and time (UTC).",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": "Velocity (m / day)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "precipitation",
+      "title": "Precipitation",
+      "path": "data/precipitation.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "t_begin",
+            "type": "datetime",
+            "description": "Date and time (UTC) of precipitation onset.",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "t_end",
+            "type": "datetime",
+            "description": "Date and time (UTC) of precipitation end.",
+            "format": "YYYY-MM-DD'T'hh:mm:ss'Z'"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": "Precipitation (mm / day)."
+          }
+        ]
+      }
+    }
+  ]
+}
