@@ -6,7 +6,7 @@ Preview this [Data Package](http://specs.frictionlessdata.io/data-packages/) usi
 
 ### Description
 
-The data includes meteorological observations from the active Army Corps of Engineers (ACE) Corps Water Management System (CWMS) [Columbia Glacier](http://glacierresearch.com/locations/columbia/) (COL) station:
+The data includes meteorological observations from the active US Army Corps of Engineers (USACE) Corps Water Management System (CWMS) [Columbia Glacier](http://glacierresearch.com/locations/columbia/) (COL) station:
 
 - Air temperature
 - Relative humidity
@@ -17,7 +17,7 @@ The data includes meteorological observations from the active Army Corps of Engi
 ### Sources
 
 - Glacier Research: Columbia Glacier ([glacierresearch.org](http://glacierresearch.org/))
-- Gadomski's [cwms-jsonapi](https://github.com/gadomski/cwms-jsonapi) (live at https://reservoircontrol.usace.army.mil/NE/pls/cwmsweb/cwms_web.jsonapi)
+- Pete Gadomski's [cwms-jsonapi](https://github.com/gadomski/cwms-jsonapi) (live at https://reservoircontrol.usace.army.mil/NE/pls/cwmsweb/cwms_web.jsonapi)
 
 ## To Do
 
