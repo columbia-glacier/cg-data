@@ -18,7 +18,7 @@
       "roles": "Assisted station deployment."
     },
     {
-      "name": "Peter Godamski",
+      "name": "Pete Gadomski",
       "roles": "Wrote the API distributing the data from the station."
     }
   ],
@@ -28,7 +28,7 @@
       "web": "http://glacierresearch.org/locations/columbia/"
     },
     {
-      "name": "Pete Godamski's CWMS JSON API (cwms-jsonapi)",
+      "name": "Pete Gadomski's CWMS JSON API (cwms-jsonapi)",
       "web": "https://github.com/gadomski/cwms-jsonapi"
     },
     {
