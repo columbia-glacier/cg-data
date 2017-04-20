@@ -25,5 +25,5 @@ Flow velocities (theodolite)
 - Ask Mark Fahnestock for data used in his thesis ([Fahnestock 1991](http://thesis.library.caltech.edu/2920/)).
 - (as needed) Extract ice velocities (meier-others-1994, Figure 4).
 - (as needed) Extract rainfall, wind speed, temperature, ablation rate, river discharge, lake filling rate, and water level (meier-others-1994, Figure 5).
-- (as needed) Extract water level in boreholes (meier-others-1994, Figure 7).
+- (as needed) Extract water level in boreholes (meier-others-1994, Figure 7).s
 - (as needed) Process original data.
