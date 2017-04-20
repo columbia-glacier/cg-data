@@ -11,6 +11,18 @@ This repository serves as a guide to the [columbia-glacier](https://github.com/c
 
 Tools for working with Data Packages are available [here](https://frictionlessdata.io/tools/).
 
+## Installation
+
+To clone all the [columbia-glacier](https://github.com/columbia-glacier/) repositories, you can use the following `bash` command:
+
+```
+curl "https://api.github.com/users/columbia-glacier/repos?page=1&per_page=100" |
+  grep -e 'git_url*' |
+  cut -d \" -f 4 |
+  xargs -L1 git clone
+```
+(source: http://stackoverflow.com/a/32833411)
+
 ## Datasets
 
 | Name |
