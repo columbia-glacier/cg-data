@@ -1,3 +1,42 @@
 [submodule "gak1"]
 	path = gak1
 	url = https://github.com/columbia-glacier/gak1
+[submodule "gps-rovers-2004"]
+	path = gps-rovers-2004
+	url = https://github.com/columbia-glacier/gps-rovers-2004
+[submodule "gps-rovers-2010"]
+	path = gps-rovers-2010
+	url = https://github.com/columbia-glacier/gps-rovers-2010
+[submodule "noaa-coops"]
+	path = noaa-coops
+	url = https://github.com/columbia-glacier/noaa-coops
+[submodule "noaa-ncdc"]
+	path = noaa-ncdc
+	url = https://github.com/columbia-glacier/noaa-ncdc
+[submodule "optical-surveys-1984"]
+	path = optical-surveys-1984
+	url = https://github.com/columbia-glacier/optical-surveys-1984
+[submodule "optical-surveys-1985"]
+	path = optical-surveys-1985
+	url = https://github.com/columbia-glacier/optical-surveys-1985
+[submodule "optical-surveys-1986"]
+	path = optical-surveys-1986
+	url = https://github.com/columbia-glacier/optical-surveys-1986
+[submodule "optical-surveys-1987"]
+	path = optical-surveys-1987
+	url = https://github.com/columbia-glacier/optical-surveys-1987
+[submodule "optical-surveys-2005"]
+	path = optical-surveys-2005
+	url = https://github.com/columbia-glacier/optical-surveys-2005
+[submodule "optical-surveys-2008"]
+	path = optical-surveys-2008
+	url = https://github.com/columbia-glacier/optical-surveys-2008
+[submodule "optical-surveys-2009"]
+	path = optical-surveys-2009
+	url = https://github.com/columbia-glacier/optical-surveys-2009
+[submodule "usace-cwms-col"]
+	path = usace-cwms-col
+	url = https://github.com/columbia-glacier/usace-cwms-col
+[submodule "usgs-nwis"]
+	path = usgs-nwis
+	url = https://github.com/columbia-glacier/usgs-nwis
