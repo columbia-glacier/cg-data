@@ -14,12 +14,12 @@ Tools for working with Data Packages are available [here](https://frictionlessda
 ## Datasets
 
 | Name |
-| --- | --- |
-| [gak1](https://github.com/columbia-glacier/gak1) | *pending* |
+| --- |
+| [gak1](https://github.com/columbia-glacier/gak1) |
 | [gps-rovers-2004](https://github.com/columbia-glacier/gps-rovers-2004) |
 | [gps-rovers-2010](https://github.com/columbia-glacier/gps-rovers-2010) |
 | [noaa-coops](https://github.com/columbia-glacier/noaa-coops) |
-| [noaa-ncdc](https://github.com/columbia-glacier/noaa-ncdc) | *pending* |
+| [noaa-ncdc](https://github.com/columbia-glacier/noaa-ncdc) |
 | [optical-surveys-1984](https://github.com/columbia-glacier/optical-surveys-1984) |
 | [optical-surveys-1985](https://github.com/columbia-glacier/optical-surveys-1985) |
 | [optical-surveys-1986](https://github.com/columbia-glacier/optical-surveys-1986) |
