@@ -1,7 +1,7 @@
 {
-  "name": "ace-cwms-col",
-  "title": "ACE CWMS Columbia Glacier Data",
-  "description": "Meteorological observations from the Army Corps of Engineers Corps Water Management System station at Columbia Glacier.",
+  "name": "usace-cwms-col",
+  "title": "USACE CWMS Columbia Glacier Data",
+  "description": "Meteorological observations from the US Army Corps of Engineers Corps Water Management System station at Columbia Glacier.",
   "version": "0.1.0",
   "contributors": [
     {
@@ -18,7 +18,7 @@
       "roles": "Assisted station deployment."
     },
     {
-      "name": "Peter Godamski",
+      "name": "Pete Gadomski",
       "roles": "Wrote the API distributing the data from the station."
     }
   ],
@@ -28,7 +28,7 @@
       "web": "http://glacierresearch.org/locations/columbia/"
     },
     {
-      "name": "Godamski's CWMS JSON API (cwms-jsonapi)",
+      "name": "Pete Gadomski's CWMS JSON API (cwms-jsonapi)",
       "web": "https://github.com/gadomski/cwms-jsonapi"
     },
     {
