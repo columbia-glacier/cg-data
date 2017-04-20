@@ -78,7 +78,7 @@ results <- lapply(filenames, function(filename) {
   # Convert date and time to ISO 8601 datetime
   new_date <- format(strptime(df$date, "%m/%d/%Y"), "%Y-%m-%d")
   new_time <- format(strptime(df$time, "%H:%M:%S"), "%H:%M:%S")
-  df$t <- paste0(new_date, " ", new_time)
+  df$t <- paste0(new_date, "T", new_time, "Z")
   df$date <- NULL
   df$time <- NULL
   # Sort rows (by time)
