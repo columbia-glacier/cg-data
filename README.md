@@ -23,6 +23,10 @@ curl "https://api.github.com/users/columbia-glacier/repos?page=1&per_page=100" |
 ```
 (source: http://stackoverflow.com/a/32833411)
 
+## Development
+
+All the scripts (`scripts/*`) that generate the data files (`data/*`) are written in [R](https://www.r-project.org/). Many of these require the R package [cgr](https::/github.com/columbia-glacier/cgr).
+
 ## Datasets
 
 | Name |
