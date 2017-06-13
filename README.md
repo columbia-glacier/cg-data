@@ -23,10 +23,6 @@ curl "https://api.github.com/users/columbia-glacier/repos?page=1&per_page=100" |
 ```
 (source: http://stackoverflow.com/a/32833411)
 
-## Development
-
-All the scripts (`scripts/*`) that generate the data files (`data/*`) are written in [R](https://www.r-project.org/). Many of these require the R package [cgr](https::/github.com/columbia-glacier/cgr).
-
 ## Datasets
 
 | Name |
@@ -71,3 +67,7 @@ Although datasets are assembled from many disparate sources, the following conve
 | Voltage | `*_voltage` | volts (V) | --- |
 | *... range* | `*_begin`, `*_end` | --- | --- |
 | *... component* | `*_x`, `*_y`, ... | --- | --- |
+
+## Development
+
+All the scripts (`scripts/*`) that generate the data files (`data/*`) are written in [R](https://www.r-project.org/). Many of these require the R package [cgr](https::/github.com/columbia-glacier/cgr).
