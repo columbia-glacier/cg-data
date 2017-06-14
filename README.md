@@ -49,17 +49,18 @@ Although datasets are assembled from many disparate sources, the following conve
 | Variable | Field | Unit  / Format | Datum |
 | --- | --- | --- | --- |
 | Time | `t` | `YYYY-MM-DDThh:mm:ssZ` | [Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC) |
-| Time | `t` | `YYYY-MM-DDThh:mm:ss` | *unknown* |
+| Time | `t` | `YYYY-MM-DDThh:mm:ss` | *Unknown* |
 | Easting | `x` | meters (m) | [WGS 84 UTM Zone 6N](http://spatialreference.org/ref/epsg/wgs-84-utm-zone-6n/) (EPSG:32606) |
 | Northing | `y` | meters (m) | [WGS 84 UTM Zone 6N](http://spatialreference.org/ref/epsg/wgs-84-utm-zone-6n/) (EPSG:32606) |
 | Longitude | `longitude` | decimal degrees (°) | [WGS 84](http://spatialreference.org/ref/epsg/wgs-84-utm-zone-6n/) (EPSG:4326) |
 | Latitude | `latitude` | decimal degrees (°) | [WGS 84](http://spatialreference.org/ref/epsg/4326/) (EPSG:4326) |
 | Elevation | `elevation` | meters (m) | [WGS 84 Ellipsoid](https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84) |
-| Water level | `water_level` | meters (m) | [Mean Lower Low Water](https://en.wikipedia.org/wiki/Chart_datum#Mean_lower_low_water) (MLLW) |
+| Sea level | `sea_level` | meters (m) | [Mean Lower Low Water](https://en.wikipedia.org/wiki/Chart_datum#Mean_lower_low_water) (MLLW) |
+| Precipitation | `precipitation` | meters (m) | --- |
 | Relative humidity | `relative_humidity` | percent (%) | --- |
-| Direction | `*_direction` | radians (rad) | counterclockwise from east |
-| Speed | `*_speed` | meters per day (m/day) | --- |
-| Speed (glacier) | `*_speed` | meters per second (m/s) | --- |
+| Speed | `*_speed` | meters per day (m/s) | --- |
+| Speed (glacier) | `*_speed` | meters per second (m/day) | --- |
+| Direction | `*_direction` | radians (rad) | Direction of travel counterclockwise from east |
 | Discharge | `*_discharge` | cubic meters per second (m<sup>3</sup>/s) | --- |
 | Temperature | `*_temperature` | degrees Celsius (°C) | --- |
 | Conductivity | `*_conductivity` | siemens per meter (S/m) | --- |
