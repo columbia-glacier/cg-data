@@ -56,6 +56,7 @@ Although datasets are assembled from many disparate sources, the following conve
 | Latitude | `latitude` | decimal degrees (°) | [WGS 84](http://spatialreference.org/ref/epsg/4326/) (EPSG:4326) |
 | Elevation | `elevation` | meters (m) | [WGS 84 Ellipsoid](https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84) |
 | Sea level | `sea_level` | meters (m) | [Mean Lower Low Water](https://en.wikipedia.org/wiki/Chart_datum#Mean_lower_low_water) (MLLW) |
+| Solar irradiance | `solar_irradiance` | Watts per square meter (W/m<sup>2</sup>) | --- |
 | Precipitation | `precipitation` | meters (m) | --- |
 | Relative humidity | `relative_humidity` | percent (%) | --- |
 | Speed | `*_speed` | meters per day (m/s) | --- |
