@@ -46,29 +46,67 @@ curl "https://api.github.com/users/columbia-glacier/repos?page=1&per_page=100" |
 
 Although datasets are assembled from many disparate sources, the following conventions are followed whenever possible. Note that these conventions are not followed throughout, so always check the `datapackage.json` for the current field definitions.
 
+### Time
+
 | Variable | Field | Unit  / Format | Datum |
 | --- | --- | --- | --- |
-| Time | `t` | `YYYY-MM-DDThh:mm:ssZ` | [Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC) |
-| Time | `t` | `YYYY-MM-DDThh:mm:ss` | *Unknown* |
+| Date and time | `t` | `YYYY-MM-DDThh:mm:ssZ` | [Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC) |
+| Date and time | `t` | `YYYY-MM-DDThh:mm:ss` | *Unknown* |
+| Observation period | `*_period` | seconds (s) | Ending at the listed date and time |
+| *... endpoints* | `*_begin`, `*_end` | --- | --- |
+
+### Space
+
+| Variable | Field | Unit  / Format | Datum |
+| --- | --- | --- | --- |
 | Easting | `x` | meters (m) | [WGS 84 UTM Zone 6N](http://spatialreference.org/ref/epsg/wgs-84-utm-zone-6n/) (EPSG:32606) |
 | Northing | `y` | meters (m) | [WGS 84 UTM Zone 6N](http://spatialreference.org/ref/epsg/wgs-84-utm-zone-6n/) (EPSG:32606) |
 | Longitude | `longitude` | decimal degrees (°) | [WGS 84](http://spatialreference.org/ref/epsg/wgs-84-utm-zone-6n/) (EPSG:4326) |
 | Latitude | `latitude` | decimal degrees (°) | [WGS 84](http://spatialreference.org/ref/epsg/4326/) (EPSG:4326) |
 | Elevation | `elevation` | meters (m) | [WGS 84 Ellipsoid](https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84) |
-| Sea level | `sea_level` | meters (m) | [Mean Lower Low Water](https://en.wikipedia.org/wiki/Chart_datum#Mean_lower_low_water) (MLLW) |
-| Solar irradiance | `solar_irradiance` | Watts per square meter (W/m<sup>2</sup>) | --- |
-| Precipitation | `precipitation` | meters (m) | --- |
+| *... component* | `*_x`, `*_y`, ... | --- | --- |
+
+### Meteorology
+
+| Variable | Field | Unit  / Format | Datum |
+| --- | --- | --- | --- |
+| Air temperature | `air_temperature` | degrees Celsius (°C) | --- |
+| Air pressure (station) | `air_pressure` | pascals (Pa) | Station elevation |
+| Air pressure (sea level) | `air_pressure_at_sea_level` | pascals (Pa) | Mean Sea Level (MSL) |
+| Dew point | `dew_point` | degrees Celsius (°C) | --- |
+| Precipitation (liquid equivalent) | `precipitation_lwe` | meters (m) | --- |
+| Precipitation (liquid) | `rainfall` | meters (m) | --- |
+| Precipitation (solid) | `snowfall` | meters (m) | --- |
+| Precipitation (solid, liquid equivalent) | `snowfall_lwe` | meters (m) | --- |
 | Relative humidity | `relative_humidity` | percent (%) | --- |
-| Speed | `*_speed` | meters per day (m/s) | --- |
-| Speed (glacier) | `*_speed` | meters per second (m/day) | --- |
+| Solar irradiance | `solar_irradiance` | Watts per square meter (W/m<sup>2</sup>) | Total amount of direct and diffuse solar radiation received on a horizontal surface |
+| Snow depth | `snow_thickness` | meters (m) | --- |
+| Snow depth (liquid equivalent) | `snow_thickness_lwe` | meters (m) | --- |
+| Wind direction | `wind_temperature` | radians (rad) | Direction of travel counterclockwise from east |
+| Wind speed | `wind_speed` | meters per second (m/s) | --- |
+
+### Oceanography
+
+| Variable | Field | Unit  / Format | Datum |
+| --- | --- | --- | --- |
+| Sea level | `sea_level` | meters (m) | [Mean Lower Low Water](https://en.wikipedia.org/wiki/Chart_datum#Mean_lower_low_water) (MLLW) |
+| Sea surface temperature | `sea_surface_temperature` | degrees Celsius (°C) | --- |
+| Water temperature | `water_temperature` | degrees Celsius (°C) | --- |
+
+### Modifiers
+
+| Variable | Field | Unit  / Format | Datum |
+| --- | --- | --- | --- |
+| Speed | `*_speed` | meters per second (m/s) | --- |
+| Speed (glacier) | `*_speed` | meters per day (m/d) | --- |
 | Direction | `*_direction` | radians (rad) | Direction of travel counterclockwise from east |
 | Discharge | `*_discharge` | cubic meters per second (m<sup>3</sup>/s) | --- |
 | Temperature | `*_temperature` | degrees Celsius (°C) | --- |
 | Conductivity | `*_conductivity` | siemens per meter (S/m) | --- |
 | Pressure | `*_pressure` | pascals (Pa) | --- |
 | Voltage | `*_voltage` | volts (V) | --- |
-| *... range* | `*_begin`, `*_end` | --- | --- |
-| *... component* | `*_x`, `*_y`, ... | --- | --- |
+| Observation quality | `*_quality` | --- | --- |
+| *... counter* | `*_1`, `*_2`, ... | --- | --- |
 
 ## Development
 
